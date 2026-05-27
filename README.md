@@ -1,49 +1,16 @@
-# 🎵 SongVoca — fe
+# React + Vite
 
-> Learn Korean vocabulary through the songs you love.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-SongVoca is a Korean vocabulary learning web app. Search for a K-pop or Korean song, load its lyrics, and let AI extract useful vocabulary into flashcards. Study words in context — the way language is actually used.
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## ✨ Features
+## React Compiler
 
-- **Song Search** — Search songs by title or artist via LRCLIB API
-- **AI Vocabulary Extraction** — Gemini AI extracts Korean words with definitions and grammar notes
-- **Flashcard Study** — Flip cards with "I know" / "I don't know" tracking
-- **My Library** — Save and manage songs with learning progress status
-- **Word List** — View all saved vocabulary across songs
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
----
+## Expanding the ESLint configuration
 
-## 🖥️ Tech Stack
-
-| | |
-|---|---|
-| Framework | React |
-| Styling | Tailwind CSS |
-| HTTP Client | Axios |
-| Routing | React Router v6 |
-| Deployment | Vercel |
-
----
-
-## 👥 Team
-
-| Name | Role |
-|------|------|
-| Kwon Ayeong | Frontend — Lyrics screen, Flashcard, Mobile responsive, Deployment |
-| Na Hyanghee | Frontend — React setup, Login/Sign Up, Home, Search, Common Components |
-
----
-
-## 📝 AI Usage
-
-This project uses the **Google Gemini API** for Korean vocabulary extraction from song lyrics.
-AI assistance (GitHub Copilot / Claude) was used during development in accordance with the course academic integrity policy.
-
----
-
-## 📄 License
-
-This project is for academic purposes — ITM519 Web Programming, SeoulTech, 2026.
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
