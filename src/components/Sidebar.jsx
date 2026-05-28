@@ -9,6 +9,7 @@
  */
 
 import { NavLink } from 'react-router-dom';
+import UserMenu from './UserMenu';
 
 // ── 아이콘 (SVG 인라인, 외부 의존성 없음) ──
 const icons = {
@@ -81,7 +82,9 @@ function DesktopSidebar() {
             </nav>
 
             {/* 하단 여백 */}
-            <div className="p-4" />
+            <div className="p-3">
+                <UserMenu />
+            </div>
         </aside>
     );
 }

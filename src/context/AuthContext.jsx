@@ -12,7 +12,7 @@
  */
 
 import { createContext, useContext, useEffect, useState } from 'react'
-import api from '../api/axios'
+import api from '../api/client'
 const AuthContext = createContext(null)
 
 export function useAuth() {
