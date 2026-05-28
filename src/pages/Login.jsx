@@ -1,16 +1,24 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: 백엔드 API 연결
-    console.log("Login attempt:", { email, password });
-    // 임시: 홈으로 이동
+    
+    // 임시: 가짜 데이터로 로그인 (백엔드 준비되면 axios 호출로 교체)
+    login({
+      token: "fake-jwt-token-123",
+      user: { id: 1, name: "Maria", email }
+    });
+
     navigate("/");
   };
 

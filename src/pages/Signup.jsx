@@ -1,8 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 function Signup() {
   const navigate = useNavigate();
+  const { login } = useAuth();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,10 +28,13 @@ function Signup() {
       return;
     }
 
-    // TODO: 백엔드 API 연결
-    console.log("Signup attempt:", { name, email, password });
-    // 임시: 로그인 화면으로 이동
-    navigate("/login");
+    // 임시: 가짜 데이터로 가입 + 자동 로그인
+    login({
+      token: "fake-jwt-token-123",
+      user: { id: 1, name, email }
+    });
+
+    navigate("/");  // 가입 후 홈으로
   };
 
   return (
