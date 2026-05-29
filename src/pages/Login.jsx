@@ -6,14 +6,11 @@ import api from "../api/client";
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
 
     try {
       const { data } = await api.post('/api/auth/login', { email, password });
@@ -26,7 +23,7 @@ function Login() {
 
       navigate("/");
     } catch (err) {
-      setError("Invalid email or password");
+      console.error("Login failed", err);
     }
   };
 
