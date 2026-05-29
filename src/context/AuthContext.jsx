@@ -13,6 +13,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react'
 import api from '../api/client'
+
 const AuthContext = createContext(null)
 
 export function useAuth() {
@@ -43,10 +44,11 @@ export function AuthProvider({ children }) {
     }, [])
 
     // ── 로그인 ─────────────────────────────────────────────
-    // login({ token, user }) 형태로 받음
-    function login({ token, user }) {
+    // 백엔드 응답: { token, id, email, name }
+    // user 객체로 묶어서 저장
+    function login({ token, id, email, name }) {
         localStorage.setItem('token', token)
-        setUser(user)
+        setUser({ id, email, name })
     }
 
     // ── 로그아웃 ───────────────────────────────────────────
