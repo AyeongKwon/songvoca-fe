@@ -19,7 +19,7 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/library" element={<Library />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/lyrics/:id" element={<Lyrics />} />
+          <Route path="/songs/:id" element={<Lyrics />} />
         </Route>
         
         {/* Layout 없는 경로 (전체 화면) */}
