@@ -1,17 +1,20 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
-// TODO: 백엔드 API 준비되면 axios 호출로 교체
-// const { data: songs } = await api.get('/api/songs')
-const mockSongs = [
-  { id: 1, title: "소문의 낙원", artist: "AKMU", status: "learning" },
-  { id: 2, title: "Spring Day", artist: "BTS", status: "learning" },
-  { id: 3, title: "벚꽃 엔딩", artist: "버스커버스커", status: "done" },
-  { id: 4, title: "좋은 날", artist: "아이유", status: "learning" },
-];
+import api from "../api/client";
 
 function Home() {
   const { user } = useAuth();
+  const [songs, setSongs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  //API 호출
+  useEffect(() => {
+    api.get('/api/songs')
+      .then((res) => setSongs(res.data))
+      .catch((err) => console.error("Failed to load songs", err))
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <div>
@@ -26,21 +29,27 @@ function Home() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {mockSongs.map((song) => (
-          <Link
-            key={song.id}
-            to={`/lyrics/${song.id}`}
-            className="border border-gray-200 rounded p-4 hover:shadow"
-          >
-            <h3 className="font-bold">{song.title}</h3>
-            <p className="text-sm text-gray-600">{song.artist}</p>
-            <span className="text-xs mt-2 inline-block">
-              {song.status === "done" ? "✓ DONE" : "📖 LEARNING"}
-            </span>
-          </Link>
-        ))}
-      </div>
+      {loading ? (
+        <p className="text-gray-500">Loading...</p>
+      ) : songs.length === 0 ? (
+        <p className="text-gray-500">No songs yet. Search and add your first song!</p>
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {songs.map((song) => (
+            <Link
+              key={song.id}
+              to={`/lyrics/${song.id}`}
+              className="border border-gray-200 rounded p-4 hover:shadow"
+            >
+              <h3 className="font-bold">{song.title}</h3>
+              <p className="text-sm text-gray-600">{song.artist}</p>
+              <span className="text-xs mt-2 inline-block">
+                {song.study_status === "completed" ? "✓ DONE" : "📖 LEARNING"}
+              </span>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

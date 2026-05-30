@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import api from "../api/client";
 
 function Signup() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ function Signup() {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -28,13 +29,21 @@ function Signup() {
       return;
     }
 
-    // 임시: 가짜 데이터로 가입 + 자동 로그인
-    login({
-      token: "fake-jwt-token-123",
-      user: { id: 1, name, email }
-    });
+    try {
+      // 1. 회원가입
+      await api.post('/api/auth/register', { name, email, password });
 
-    navigate("/");  // 가입 후 홈으로
+      // 2. 자동 로그인
+      const { data } = await api.post('/api/auth/login', { email, password });
+      login({
+        token: data.token,
+        user: { id: data.id, name: data.name, email: data.email }
+      });
+
+      navigate("/");
+    } catch (err) {
+      console.error("Signup failed", err);
+    }
   };
 
   return (
