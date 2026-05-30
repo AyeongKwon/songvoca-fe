@@ -50,12 +50,12 @@ export default function UserMenu() {
             {/* 트리거 버튼 */}
             <button
                 onClick={() => setOpen((prev) => !prev)}
-                className="flex items-center gap-2 w-full px-3 py-2 rounded-var(--radius-md)
-          text-sm text-var(--color-text-secondary) font-medium
-          hover:bg-var(--color-border-light) transition-colors duration-var(--transition-fast)"
+                className="flex items-center gap-2 w-full px-3 py-2 rounded-[var(--radius-md)]
+          text-sm text-[var(--color-text-secondary)] font-medium
+          hover:bg-[var(--color-border-light)] transition-colors duration-[var(--transition-fast)]"
             >
                 {/* 이니셜 아바타 */}
-                <span className="w-7 h-7 rounded-full bg-var(--color-accent) text-var(--color-accent-fg)
+                <span className="w-7 h-7 rounded-full bg-[var(--color-accent)] text-[var(--color-accent-fg)]
           flex items-center justify-center text-xs font-semibold shrink-0">
                     {initial}
                 </span>
@@ -64,7 +64,7 @@ export default function UserMenu() {
                 <svg
                     width="12" height="12" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                    className={`ml-auto transition-transform duration-var(--transition-fast) ${open ? 'rotate-180' : ''}`}
+                    className={`ml-auto transition-transform duration-[var(--transition-fast)] ${open ? 'rotate-180' : ''}`}
                 >
                     <polyline points="6 9 12 15 18 9" />
                 </svg>
@@ -73,13 +73,13 @@ export default function UserMenu() {
             {/* 드롭다운 */}
             {open && (
                 <div className="absolute bottom-full left-0 right-0 mb-1
-          bg-var(--color-surface) border border-var(--color-border)
-          rounded-var(--radius-lg) shadow-var(--shadow-md) overflow-hidden z-50">
+          bg-[var(--color-surface)] border border-[var(--color-border)]
+          rounded-[var(--radius-lg)] shadow-[var(--shadow-md)] overflow-hidden z-50">
 
                     {/* 유저 정보 */}
-                    <div className="px-4 py-3 border-b border-var(--color-border)">
-                        <p className="text-sm font-medium text-var(--color-text-primary) truncate">{user.name}</p>
-                        <p className="text-xs text-var(--color-text-muted) truncate">{user.email}</p>
+                    <div className="px-4 py-3 border-b border-[var(--color-border)]">
+                        <p className="text-sm font-medium text-[var(--color-text-primary)] truncate">{user.name}</p>
+                        <p className="text-xs text-[var(--color-text-muted)] truncate">{user.email}</p>
                     </div>
 
                     {/* 로그아웃 */}
@@ -87,7 +87,7 @@ export default function UserMenu() {
                         onClick={handleLogout}
                         className="flex items-center gap-2 w-full px-4 py-2.5
               text-sm text-red-500 hover:bg-red-50
-              transition-colors duration-var(--transition-fast)"
+              transition-colors duration-[var(--transition-fast)]"
                     >
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

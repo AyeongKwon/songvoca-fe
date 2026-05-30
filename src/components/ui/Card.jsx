@@ -50,7 +50,7 @@ function StatusBadge({ status }) {
     const s = STATUS_MAP[status] ?? STATUS_MAP.not_started;
     return (
         <span
-            className={`inline-block text-[10px] font-semibold tracking-widest px-2 py-0.5 rounded-var(--radius-sm) ${s.className}`}
+            className={`inline-block text-[10px] font-semibold tracking-widest px-2 py-0.5 rounded-[var(--radius-sm)] ${s.className}`}
         >
             {s.label}
         </span>
@@ -65,21 +65,21 @@ function SongCard({ title, artist, status = 'not_started', unknownCount, onClick
             onClick={onClick}
             className={`
         w-full text-left
-        bg-var(--color-surface) border border-var(--color-border)
-        rounded-var(--radius-lg) p-4
-        hover:shadow-var(--shadow-md) hover:border-var(--color-text-muted)
+        bg-[var(--color-surface)] border border-[var(--color-border)]
+        rounded-[var(--radius-lg)] p-4
+        hover:shadow-[var(--shadow-md)] hover:border-[var(--color-text-muted)]
         active:scale-[0.98]
-        transition-all duration-var(--transition-base)
+        transition-all duration-[var(--transition-base)]
         ${className}
       `}
         >
             {/* 앨범 아트 placeholder + 텍스트 */}
             <div className="flex items-center gap-3">
                 {/* 아이콘 원형 */}
-                <div className="w-10 h-10 rounded-full bg-var(--color-surface-alt) flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-full bg-[var(--color-surface-alt)] flex items-center justify-center shrink-0">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                        className="text-var(--color-text-muted)">
+                        className="text-[var(--color-text-muted)]">
                         <path d="M9 18V5l12-2v13" />
                         <circle cx="6" cy="18" r="3" />
                         <circle cx="18" cy="16" r="3" />
@@ -87,8 +87,8 @@ function SongCard({ title, artist, status = 'not_started', unknownCount, onClick
                 </div>
 
                 <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm text-var(--color-text-primary) truncate">{title}</p>
-                    <p className="text-xs text-var(--color-text-secondary) truncate">{artist}</p>
+                    <p className="font-medium text-sm text-[var(--color-text-primary)] truncate">{title}</p>
+                    <p className="text-xs text-[var(--color-text-secondary)] truncate">{artist}</p>
                 </div>
 
                 <StatusBadge status={status} />
@@ -96,7 +96,7 @@ function SongCard({ title, artist, status = 'not_started', unknownCount, onClick
 
             {/* 미학습 단어 수 */}
             {unknownCount !== undefined && (
-                <p className="mt-2 text-xs text-var(--color-text-muted)">
+                <p className="mt-2 text-xs text-[var(--color-text-muted)]">
                     {unknownCount > 0
                         ? `${unknownCount}개 단어 학습 중`
                         : '모든 단어 완료 🎉'}
@@ -137,13 +137,13 @@ function WordCard({ word, pos, definition, flipped = false, onClick, className =
                 <div
                     style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
                     className="absolute inset-0 flex flex-col items-center justify-center
-            bg-var(--color-surface) border border-var(--color-border)
-            rounded-var(--radius-xl) p-6 shadow-var(--shadow-sm)"
+            bg-[var(--color-surface)] border border-[var(--color-border)]
+            rounded-[var(--radius-xl)] p-6 shadow-[var(--shadow-sm)]"
                 >
-                    <p className="text-4xl font-var(--font-display) text-var(--color-text-primary) mb-3">
+                    <p className="text-4xl font-[var(--font-display)] text-[var(--color-text-primary)] mb-3">
                         {word}
                     </p>
-                    <p className="text-xs text-var(--color-text-muted)">tap to see meaning</p>
+                    <p className="text-xs text-[var(--color-text-muted)]">tap to see meaning</p>
                 </div>
 
                 {/* ── 뒷면: 번역 + 품사 ── */}
@@ -154,18 +154,18 @@ function WordCard({ word, pos, definition, flipped = false, onClick, className =
                         transform: 'rotateY(180deg)',
                     }}
                     className="absolute inset-0 flex flex-col items-center justify-center
-            bg-var(--color-accent) border border-var(--color-accent)
-            rounded-var(--radius-xl) p-6 shadow-var(--shadow-sm)"
+            bg-[var(--color-accent)] border border-[var(--color-accent)]
+            rounded-[var(--radius-xl)] p-6 shadow-[var(--shadow-sm)]"
                 >
-                    <p className="text-3xl font-var(--font-display) text-var(--color-accent-fg) mb-2">
+                    <p className="text-3xl font-[var(--font-display)] text-[var(--color-accent-fg)] mb-2">
                         {definition}
                     </p>
                     {pos && (
-                        <span className="text-xs font-medium text-var(--color-accent-fg) opacity-60 uppercase tracking-widest">
+                        <span className="text-xs font-medium text-[var(--color-accent-fg)] opacity-60 uppercase tracking-widest">
                             {pos}
                         </span>
                     )}
-                    <p className="text-xs text-var(--color-accent-fg) opacity-40 mt-3">tap to flip back</p>
+                    <p className="text-xs text-[var(--color-accent-fg)] opacity-40 mt-3">tap to flip back</p>
                 </div>
             </div>
         </div>
@@ -174,7 +174,7 @@ function WordCard({ word, pos, definition, flipped = false, onClick, className =
 
 // ── 기본 래퍼 ────────────────────────────────────────────
 function Card({ children, className = '', onClick }) {
-    const base = `bg-var(--color-surface) border border-var(--color-border) rounded-var(--radius-lg) shadow-var(--shadow-sm)`;
+    const base = `bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)]`;
     return onClick ? (
         <button type="button" onClick={onClick} className={`${base} w-full text-left ${className}`}>
             {children}

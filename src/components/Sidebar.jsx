@@ -60,17 +60,17 @@ const navItems = [
 ]
 
 function navClass({ isActive }) {
-    const base = 'flex items-center gap-3 px-3 py-2 rounded-var(--radius-md) text-sm font-medium transition-colors duration-var(--transition-fast)'
+    const base = 'flex items-center gap-3 px-3 py-2 rounded-[var(--radius-md)] text-sm font-medium transition-colors duration-[var(--transition-fast)]'
     return isActive
-        ? `${base} bg-var(--color-accent) text-var(--color-accent-fg)`
-        : `${base} text-var(--color-text-secondary) hover:bg-var(--color-border-light) hover:text-var(--color-text-primary)`
+        ? `${base} bg-[var(--color-accent)] text-[var(--color-accent-fg)]`
+        : `${base} text-[var(--color-text-secondary)] hover:bg-[var(--color-border-light)] hover:text-[var(--color-text-primary)]`
 }
 
 function DesktopSidebar() {
     return (
-        <aside className="hidden md:flex flex-col w-[220px] min-h-screen bg-var(--color-surface-alt) border-r border-var(--color-border) shrink-0">
+        <aside className="hidden md:flex flex-col w-[220px] min-h-screen bg-[var(--color-surface-alt)] border-r border-[var(--color-border)] shrink-0">
             <div className="px-5 py-6">
-                <span className="font-var(--font-display) text-xl tracking-tight text-var(--color-text-primary)">
+                <span className="font-[var(--font-display)] text-xl tracking-tight text-[var(--color-text-primary)]">
                     ♪ SongVoca
                 </span>
             </div>
@@ -94,18 +94,18 @@ function MobileHeader() {
     return (
         <>
             <header className="md:hidden fixed top-0 left-0 right-0 z-50
-        h-14 bg-var(--color-surface) border-b border-var(--color-border)
+        h-14 bg-[var(--color-surface)] border-b border-[var(--color-border)]
         flex items-center justify-between px-4">
 
                 <button
                     onClick={() => setOpen(true)}
-                    className="text-var(--color-text-primary) p-1"
+                    className="text-[var(--color-text-primary)] p-1"
                     aria-label="메뉴 열기"
                 >
                     {icons.menu}
                 </button>
 
-                <span className="font-var(--font-display) text-lg text-var(--color-text-primary)">
+                <span className="font-[var(--font-display)] text-lg text-[var(--color-text-primary)]">
                     ♪ SongVoca
                 </span>
 
@@ -122,18 +122,18 @@ function MobileHeader() {
 
             <div className={`
             md:hidden fixed top-0 left-0 z-50 h-full w-64
-            bg-var(--color-surface-alt) border-r border-var(--color-border)
+            bg-[var(--color-surface-alt)] border-r border-[var(--color-border)]
             flex flex-col
             transition-transform duration-300
             ${open ? 'translate-x-0' : '-translate-x-full'}
             `}>
                 <div className="flex items-center justify-between px-5 py-5">
-                    <span className="font-var(--font-display) text-xl text-var(--color-text-primary)">
+                    <span className="font-[var(--font-display)] text-xl text-[var(--color-text-primary)]">
                         ♪ SongVoca
                     </span>
                     <button
                         onClick={() => setOpen(false)}
-                        className="text-var(--color-text-muted)"
+                        className="text-[var(--color-text-muted)]"
                         aria-label="메뉴 닫기"
                     >
                         {icons.close}

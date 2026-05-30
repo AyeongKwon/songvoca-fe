@@ -24,7 +24,7 @@ import Sidebar from './Sidebar';
 
 export default function Layout() {
     return (
-        <div className="flex min-h-screen bg-var(--color-bg)">
+        <div className="flex min-h-screen bg-[var(--color-bg)]">
             {/* 사이드바 (데스크탑에서만 표시, 모바일은 하단 탭바) */}
             <Sidebar />
 
@@ -36,7 +36,7 @@ export default function Layout() {
                     'px-4 py-6',                    // 모바일 패딩
                     'md:px-8 md:py-8',             // 데스크탑 패딩
                     'pb-20 md:pb-8',               // 모바일: 하단 탭바 높이만큼 패딩
-                    'max-w-var(--content-max-width)', // 콘텐츠 최대 너비
+                    'max-w-[var(--content-max-width)]', // 콘텐츠 최대 너비
                 ].join(' ')}
             >
                 {/* 
