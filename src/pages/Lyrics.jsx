@@ -33,7 +33,7 @@ function Lyrics() {
   useEffect(() => {
     api.get(`/songs/${id}`)
       .then((res) => setSong(res.data))
-      .catch(() => showToast('노래를 불러오지 못했어요', 'error'))
+      .catch(() => showToast('Fail to load song.', 'error'))
       .finally(() => setIsLoadingSong(false))
   }, [id])
 
@@ -50,9 +50,9 @@ function Lyrics() {
     try {
       const res = await api.post(`/songs/${id}/extract`)
       setWords(res.data)
-      showToast('단어 추출 완료! 학습을 시작해보세요 🎉')
+      showToast("Extraction complete! Let's start learning🎉")
     } catch {
-      showToast('추출 중 오류가 발생했어요', 'error')
+      showToast('An error occurred during extraction.', 'error')
     } finally {
       setIsExtracting(false)
     }
@@ -105,7 +105,7 @@ function Lyrics() {
               Lyrics
             </h2>
             <pre className="text-sm text-[--color-text-primary] leading-relaxed whitespace-pre-wrap font-[--font-body]">
-              {song?.lyrics ?? '가사를 불러오지 못했어요.'}
+              {song?.lyrics ?? 'Fail to load lyrics.'}
             </pre>
           </Card>
         </div>
@@ -125,10 +125,10 @@ function Lyrics() {
               {isExtracting ? (
                 <span className="flex items-center gap-2">
                   <span className="w-4 h-4 border-2 border-[--color-accent-fg] border-t-transparent rounded-full animate-spin" />
-                  AI가 단어를 추출하는 중...
+                  Extracting words...
                 </span>
               ) : (
-                'Extract words with AI ✨'
+                'Extract words✨'
               )}
             </Button>
           ) : (
