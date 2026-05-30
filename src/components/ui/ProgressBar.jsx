@@ -32,16 +32,16 @@ export default function ProgressBar({
         <div className={`w-full ${className}`}>
             {showLabel && (
                 <div className="flex justify-between items-center mb-1">
-                    <span className="text-xs text-[--color-text-muted]">진도</span>
-                    <span className="text-xs font-medium text-[--color-text-secondary]">{label}</span>
+                    <span className="text-xs text-var(--color-text-muted)">진도</span>
+                    <span className="text-xs font-medium text-var(--color-text-secondary)">{label}</span>
                 </div>
             )}
 
             {/* 트랙 */}
-            <div className="w-full h-1.5 bg-[--color-border] rounded-full overflow-hidden">
+            <div className="w-full h-1.5 bg-var(--color-border) rounded-full overflow-hidden">
                 {/* 채워지는 바 */}
                 <div
-                    className="h-full bg-[--color-accent] rounded-full transition-all duration-[--transition-slow]"
+                    className="h-full bg-var(--color-accent) rounded-full transition-all duration-var(--transition-slow)"
                     style={{ width: `${percent}%` }}
                     role="progressbar"
                     aria-valuenow={value}

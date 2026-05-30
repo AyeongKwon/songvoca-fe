@@ -67,7 +67,7 @@ function Lyrics() {
   if (isLoadingSong) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="w-6 h-6 border-2 border-[--color-accent] border-t-transparent rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-var(--color-accent) border-t-transparent rounded-full animate-spin" />
       </div>
     )
   }
@@ -79,8 +79,8 @@ function Lyrics() {
       <div>
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-1 text-sm text-[--color-text-muted]
-            hover:text-[--color-text-primary] transition-colors mb-3"
+          className="flex items-center gap-1 text-sm text-var(--color-text-muted)
+            hover:text-var(--color-text-primary) transition-colors mb-3"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -89,10 +89,10 @@ function Lyrics() {
           Back to Library
         </button>
 
-        <h1 className="text-2xl font-[--font-display] text-[--color-text-primary]">
+        <h1 className="text-2xl font-var(--font-display) text-var(--color-text-primary)">
           {song?.title}
         </h1>
-        <p className="text-sm text-[--color-text-secondary] mt-1">{song?.artist}</p>
+        <p className="text-sm text-var(--color-text-secondary) mt-1">{song?.artist}</p>
       </div>
 
       {/* 메인 레이아웃: 가사 | 단어 카드 */}
@@ -101,10 +101,10 @@ function Lyrics() {
         {/* ── 왼쪽: 가사 ── */}
         <div className="flex-1 min-w-0">
           <Card className="p-5">
-            <h2 className="text-sm font-semibold text-[--color-text-secondary] mb-4 uppercase tracking-widest">
+            <h2 className="text-sm font-semibold text-var(--color-text-secondary) mb-4 uppercase tracking-widest">
               Lyrics
             </h2>
-            <pre className="text-sm text-[--color-text-primary] leading-relaxed whitespace-pre-wrap font-[--font-body]">
+            <pre className="text-sm text-var(--color-text-primary) leading-relaxed whitespace-pre-wrap font-var(--font-body)">
               {song?.lyrics ?? 'Fail to load lyrics.'}
             </pre>
           </Card>
@@ -114,7 +114,7 @@ function Lyrics() {
         <div className="w-full md:w-80 shrink-0 flex flex-col gap-4">
 
           {words.length > 0 && (
-            <p className="text-xs text-[--color-text-muted] text-right">
+            <p className="text-xs text-var(--color-text-muted) text-right">
               Card {words.length} / {words.length}
             </p>
           )}
@@ -124,7 +124,7 @@ function Lyrics() {
             <Button onClick={handleExtract} disabled={isExtracting} className="w-full">
               {isExtracting ? (
                 <span className="flex items-center gap-2">
-                  <span className="w-4 h-4 border-2 border-[--color-accent-fg] border-t-transparent rounded-full animate-spin" />
+                  <span className="w-4 h-4 border-2 border-var(--color-accent-fg) border-t-transparent rounded-full animate-spin" />
                   Extracting words...
                 </span>
               ) : (
@@ -144,11 +144,11 @@ function Lyrics() {
                 <Card key={word.id} className="p-4">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <p className="font-medium text-[--color-text-primary]">{word.word}</p>
-                      <p className="text-xs text-[--color-text-muted] mt-0.5">{word.definition}</p>
+                      <p className="font-medium text-var(--color-text-primary)">{word.word}</p>
+                      <p className="text-xs text-var(--color-text-muted) mt-0.5">{word.definition}</p>
                     </div>
                     {word.pos && (
-                      <span className="text-[10px] font-semibold text-[--color-text-muted]
+                      <span className="text-[10px] font-semibold text-var(--color-text-muted)
                         uppercase tracking-widest shrink-0 mt-0.5">
                         {word.pos}
                       </span>
@@ -163,7 +163,7 @@ function Lyrics() {
           {isExtracting && (
             <div className="flex flex-col gap-2">
               {[1, 2, 3, 4].map((n) => (
-                <div key={n} className="h-16 bg-[--color-surface-alt] rounded-[--radius-lg] animate-pulse" />
+                <div key={n} className="h-16 bg-var(--color-surface-alt) rounded-var(--radius-lg) animate-pulse" />
               ))}
             </div>
           )}

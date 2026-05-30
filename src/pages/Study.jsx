@@ -76,7 +76,7 @@ function Study() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="w-6 h-6 border-2 border-[--color-accent] border-t-transparent rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-var(--color-accent) border-t-transparent rounded-full animate-spin" />
       </div>
     )
   }
@@ -85,7 +85,7 @@ function Study() {
   if (words.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-3">
-        <p className="text-[--color-text-secondary]">학습할 단어가 없어요</p>
+        <p className="text-var(--color-text-secondary)">학습할 단어가 없어요</p>
         <Button variant="outline" onClick={() => navigate(-1)}>돌아가기</Button>
       </div>
     )
@@ -100,8 +100,8 @@ function Study() {
       <div>
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-1 text-sm text-[--color-text-muted]
-            hover:text-[--color-text-primary] transition-colors mb-3"
+          className="flex items-center gap-1 text-sm text-var(--color-text-muted)
+            hover:text-var(--color-text-primary) transition-colors mb-3"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -151,4 +151,4 @@ function Study() {
   )
 }
 
-export default Study
+export default Study;

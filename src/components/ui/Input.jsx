@@ -24,18 +24,18 @@ export default function Input({
     const inputId = id || `input-${Math.random().toString(36).slice(2, 7)}`;
 
     const baseInput =
-        'w-full bg-[--color-surface] text-[--color-text-primary] text-sm placeholder:text-[--color-text-muted] border rounded-[--radius-md] px-3 py-2 transition-all duration-[--transition-fast] focus:outline-none focus:ring-2 focus:ring-[--color-accent] disabled:opacity-40 disabled:cursor-not-allowed';
+        'w-full bg-var(--color-surface) text-var(--color-text-primary) text-sm placeholder:text-var(--color-text-muted) border rounded-var(--radius-md) px-3 py-2 transition-all duration-var(--transition-fast) focus:outline-none focus:ring-2 focus:ring-var(--color-accent) disabled:opacity-40 disabled:cursor-not-allowed';
 
     const borderStyle = error
         ? 'border-red-400 focus:ring-red-400'
-        : 'border-[--color-border] hover:border-[--color-text-muted]';
+        : 'border-var(--color-border) hover:border-var(--color-text-muted)';
 
     return (
         <div className={`flex flex-col gap-1 ${className}`}>
             {label && (
                 <label
                     htmlFor={inputId}
-                    className="text-sm font-medium text-[--color-text-primary]"
+                    className="text-sm font-medium text-var(--color-text-primary)"
                 >
                     {label}
                 </label>
@@ -44,7 +44,7 @@ export default function Input({
             {/* icon을 왼쪽에 붙이는 경우 */}
             <div className="relative">
                 {icon && (
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[--color-text-muted]">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-var(--color-text-muted)">
                         {icon}
                     </span>
                 )}
