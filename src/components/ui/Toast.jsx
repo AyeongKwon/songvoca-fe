@@ -61,7 +61,7 @@ function ToastItem({ message, type = 'success', onClose }) {
     return (
         <div
             className={`
-        flex items-center gap-3 px-4 py-3 rounded-[--radius-lg] shadow-[--shadow-lg]
+        flex items-center gap-3 px-4 py-3 rounded-[var(--radius-lg)] shadow-[var(--shadow-lg)]
         text-sm font-medium min-w-[200px] max-w-[320px]
         animate-[fadeInUp_0.2s_ease]
         ${v.bg} ${v.text}

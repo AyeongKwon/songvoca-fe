@@ -18,15 +18,15 @@ const sizeStyles = {
 const variantStyles = {
     // UI 스케치의 검정 "Log in", "Open lyrics" 버튼
     primary:
-        'bg-[--color-accent] text-[--color-accent-fg] hover:opacity-80 border border-transparent',
+        'bg-[var(--color-accent)] text-[var(--color-accent-fg)] hover:opacity-80 border border-transparent',
 
     // 흰 배경 외곽선 버튼 ("I don't know" 등)
     outline:
-        'bg-transparent text-[--color-text-primary] border border-[--color-border] hover:bg-[--color-surface-alt]',
+        'bg-transparent text-[var(--color-text-primary)] border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)]',
 
     // 텍스트만 (링크형)
     ghost:
-        'bg-transparent text-[--color-text-secondary] border border-transparent hover:bg-[--color-surface-alt]',
+        'bg-transparent text-[var(--color-text-secondary)] border border-transparent hover:bg-[var(--color-surface-alt)]',
 
     // 위험 동작 (삭제 등)
     danger:
@@ -44,7 +44,7 @@ export default function Button({
     ...props
 }) {
     const base =
-        'inline-flex items-center justify-center gap-2 rounded-[--radius-md] font-medium transition-all duration-[--transition-fast] focus:outline-none focus-visible:ring-2 focus-visible:ring-[--color-accent] focus-visible:ring-offset-1 disabled:opacity-40 disabled:cursor-not-allowed select-none';
+        'inline-flex items-center justify-center gap-2 rounded-[var(--radius-md)] font-medium transition-all duration-[var(--transition-fast)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-1 disabled:opacity-40 disabled:cursor-not-allowed select-none';
 
     return (
         <button

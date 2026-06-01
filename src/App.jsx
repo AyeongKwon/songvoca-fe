@@ -19,13 +19,13 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/library" element={<Library />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/lyrics/:id" element={<Lyrics />} />
+          <Route path="/songs/:id" element={<Lyrics />} />
+          <Route path="/study/:id" element={<Study />} />
         </Route>
-        
+
         {/* Layout 없는 경로 (전체 화면) */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/study/:id" element={<Study />} />
       </Routes>
     </BrowserRouter>
   );

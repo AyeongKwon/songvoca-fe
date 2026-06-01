@@ -30,7 +30,7 @@ function Login() {
   return (
     <div className="min-h-screen flex bg-white">
       {/* 왼쪽: 브랜딩 */}
-      <div className="hidden md:flex md:w-1/2 bg-[--color-bg] flex-col justify-center px-16">
+      <div className="hidden md:flex md:w-1/2 bg-[var(--color-bg)] flex-col justify-center px-16">
         <h1 className="text-5xl font-bold text-gray-900 mb-2">
           Learn Korean
         </h1>

@@ -26,14 +26,14 @@ export default function SongTable({ songs = [], savedSongIds = [], onAdd, onOpen
     if (songs.length === 0) return null
 
     return (
-        <div className="w-full overflow-x-auto rounded-[--radius-lg] border border-[--color-border]">
+        <div className="w-full overflow-x-auto rounded-[var(--radius-lg)] border border-[var(--color-border)]">
             <table className="w-full text-sm">
                 <thead>
-                    <tr className="border-b border-[--color-border] bg-[--color-surface-alt]">
-                        <th className="text-left px-4 py-3 font-medium text-[--color-text-secondary] w-[35%]">TITLE</th>
-                        <th className="text-left px-4 py-3 font-medium text-[--color-text-secondary] w-[25%]">ARTIST</th>
-                        <th className="text-left px-4 py-3 font-medium text-[--color-text-secondary] hidden md:table-cell">ALBUM</th>
-                        <th className="text-left px-4 py-3 font-medium text-[--color-text-secondary] hidden md:table-cell w-[80px]">LENGTH</th>
+                    <tr className="border-b border-[var(--color-border)] bg-[var(--color-surface-alt)]">
+                        <th className="text-left px-4 py-3 font-medium text-[var(--color-text-secondary)] w-[35%]">TITLE</th>
+                        <th className="text-left px-4 py-3 font-medium text-[var(--color-text-secondary)] w-[25%]">ARTIST</th>
+                        <th className="text-left px-4 py-3 font-medium text-[var(--color-text-secondary)] hidden md:table-cell">ALBUM</th>
+                        <th className="text-left px-4 py-3 font-medium text-[var(--color-text-secondary)] hidden md:table-cell w-[80px]">LENGTH</th>
                         <th className="px-4 py-3 w-[100px]"></th>
                     </tr>
                 </thead>
@@ -43,19 +43,19 @@ export default function SongTable({ songs = [], savedSongIds = [], onAdd, onOpen
                         return (
                             <tr
                                 key={song.id ?? index}
-                                className="border-b border-[--color-border] last:border-0
-                  hover:bg-[--color-surface-alt] transition-colors duration-[--transition-fast]"
+                                className="border-b border-[var(--color-border)] last:border-0
+                  hover:bg-[var(--color-surface-alt)] transition-colors duration-[var(--transition-fast)]"
                             >
-                                <td className="px-4 py-3 text-[--color-text-primary] font-medium truncate max-w-[160px]">
+                                <td className="px-4 py-3 text-[var(--color-text-primary)] font-medium truncate max-w-[160px]">
                                     {song.title}
                                 </td>
-                                <td className="px-4 py-3 text-[--color-text-secondary] truncate max-w-[120px]">
+                                <td className="px-4 py-3 text-[var(--color-text-secondary)] truncate max-w-[120px]">
                                     {song.artist}
                                 </td>
-                                <td className="px-4 py-3 text-[--color-text-secondary] hidden md:table-cell truncate max-w-[120px]">
+                                <td className="px-4 py-3 text-[var(--color-text-secondary)] hidden md:table-cell truncate max-w-[120px]">
                                     {song.album ?? '—'}
                                 </td>
-                                <td className="px-4 py-3 text-[--color-text-muted] hidden md:table-cell">
+                                <td className="px-4 py-3 text-[var(--color-text-muted)] hidden md:table-cell">
                                     {song.duration ?? '—'}
                                 </td>
                                 <td className="px-4 py-3 text-right">
@@ -100,8 +100,8 @@ export function EmptyState({ type = 'library' }) {
     return (
         <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
             <span className="text-4xl">{emoji}</span>
-            <p className="font-medium text-[--color-text-primary]">{title}</p>
-            <p className="text-sm text-[--color-text-muted]">{desc}</p>
+            <p className="font-medium text-[var(--color-text-primary)]">{title}</p>
+            <p className="text-sm text-[var(--color-text-muted)]">{desc}</p>
         </div>
     )
 }
