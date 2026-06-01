@@ -21,6 +21,7 @@ import Button from '../components/ui/Button'
 import Card from '../components/ui/Card'
 import ProgressBar from '../components/ui/ProgressBar'
 import { useToast } from '../components/ui/Toast'
+//화면 고민 -> 전체 OR 메뉴는 보이게...?
 
 function Study() {
   const { id } = useParams()
@@ -99,7 +100,7 @@ function Study() {
       {/* 뒤로가기 + 노래 제목 */}
       <div>
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(-1)} // 고민: 무조건 songs로 가게 하는 게 나을까, 이전으로 가는 게 나을까
           className="flex items-center gap-1 text-sm text-[var(--color-text-muted)]
             hover:text-[var(--color-text-primary)] transition-colors mb-3"
         >

@@ -113,12 +113,6 @@ function Lyrics() {
         {/* ── 오른쪽: 단어 추출 + 카드 목록 ── */}
         <div className="w-full md:w-80 shrink-0 flex flex-col gap-4">
 
-          {words.length > 0 && (
-            <p className="text-xs text-[var(--color-text-muted)] text-right">
-              Card {words.length} / {words.length}
-            </p>
-          )}
-
           {/* 추출 버튼 or 학습 시작 버튼 */}
           {words.length === 0 ? (
             <Button onClick={handleExtract} disabled={isExtracting} className="w-full">
@@ -133,8 +127,14 @@ function Lyrics() {
             </Button>
           ) : (
             <Button onClick={handleStartStudy} className="w-full">
-              학습 시작하기 →
+              Start Learning →
             </Button>
+          )}
+
+          {words.length > 0 && (
+            <p className="text-xs text-[var(--color-text-muted)] text-right">
+              Card {words.length} / {words.length}
+            </p>
           )}
 
           {/* 추출된 단어 카드 목록 */}
