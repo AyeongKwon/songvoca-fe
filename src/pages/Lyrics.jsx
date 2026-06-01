@@ -31,7 +31,7 @@ function Lyrics() {
 
   // ── 노래 정보 + 가사 불러오기 ─────────────────────────
   useEffect(() => {
-    api.get(`/songs/${id}`)
+    api.get(`/api/songs/${id}`)
       .then((res) => setSong(res.data))
       .catch(() => showToast('Fail to load song.', 'error'))
       .finally(() => setIsLoadingSong(false))
@@ -39,7 +39,7 @@ function Lyrics() {
 
   // ── 이미 추출된 단어 있으면 불러오기 ─────────────────
   useEffect(() => {
-    api.get(`/songs/${id}/words`)
+    api.get(`/api/songs/${id}/words`)
       .then((res) => setWords(res.data))
       .catch(() => { })
   }, [id])
@@ -48,7 +48,7 @@ function Lyrics() {
   async function handleExtract() {
     setIsExtracting(true)
     try {
-      const res = await api.post(`/songs/${id}/extract`)
+      const res = await api.post(`/api/songs/${id}/extract`)
       setWords(res.data)
       showToast("Extraction complete! Let's start learning🎉")
     } catch {

@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
             return
         }
 
-        api.get('/auth/me')
+        api.get('/api/auth/me')
             .then((res) => setUser(res.data))
             .catch(() => {
                 // 토큰 만료 or 유효하지 않으면 삭제

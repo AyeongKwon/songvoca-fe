@@ -53,7 +53,7 @@ function Study() {
 
     try {
       // PPT 슬라이드 API 기준: POST /api/study-logs
-      await api.post('/study-logs', {
+      await api.post('/api/study-logs', {
         word_id: currentWord.id,
         is_correct: isCorrect,
       })
