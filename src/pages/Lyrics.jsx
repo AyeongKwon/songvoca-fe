@@ -133,7 +133,7 @@ function Lyrics() {
 
           {words.length > 0 && (
             <p className="text-xs text-[var(--color-text-muted)] text-right">
-              Card {words.length} / {words.length}
+              Card {words.length}
             </p>
           )}
 

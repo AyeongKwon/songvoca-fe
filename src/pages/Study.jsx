@@ -21,7 +21,6 @@ import Button from '../components/ui/Button'
 import Card from '../components/ui/Card'
 import ProgressBar from '../components/ui/ProgressBar'
 import { useToast } from '../components/ui/Toast'
-//화면 고민 -> 전체 OR 메뉴는 보이게...?
 
 function Study() {
   const { id } = useParams()
@@ -38,7 +37,7 @@ function Study() {
   useEffect(() => {
     api.get(`/songs/${id}/words`)
       .then((res) => setWords(res.data))
-      .catch(() => showToast('단어를 불러오지 못했어요', 'error'))
+      .catch(() => showToast('Fail to load words.', 'error'))
       .finally(() => setIsLoading(false))
   }, [id])
 
@@ -59,7 +58,7 @@ function Study() {
         is_correct: isCorrect,
       })
     } catch {
-      showToast('저장 중 오류가 발생했어요', 'error')
+      showToast('An error occurred while saving.', 'error')
     } finally {
       setIsSubmitting(false)
     }
@@ -86,8 +85,8 @@ function Study() {
   if (words.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-3">
-        <p className="text-[var(--color-text-secondary)]">학습할 단어가 없어요</p>
-        <Button variant="outline" onClick={() => navigate(-1)}>돌아가기</Button>
+        <p className="text-[var(--color-text-secondary)]">There are no words to learn.</p>
+        <Button variant="outline" onClick={() => navigate(-1)}>Go back</Button>
       </div>
     )
   }
@@ -100,7 +99,7 @@ function Study() {
       {/* 뒤로가기 + 노래 제목 */}
       <div>
         <button
-          onClick={() => navigate(-1)} // 고민: 무조건 songs로 가게 하는 게 나을까, 이전으로 가는 게 나을까
+          onClick={() => navigate(-1)} // Need to discuss later: songs or previous page
           className="flex items-center gap-1 text-sm text-[var(--color-text-muted)]
             hover:text-[var(--color-text-primary)] transition-colors mb-3"
         >
