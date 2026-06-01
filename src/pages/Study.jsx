@@ -32,6 +32,7 @@ function Study() {
   const [flipped, setFlipped] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isFinished, setIsFinished] = useState(false)
 
   // ── 단어 목록 불러오기 ────────────────────────────────
   useEffect(() => {
@@ -67,8 +68,7 @@ function Study() {
     if (currentIndex + 1 < words.length) {
       setCurrentIndex((prev) => prev + 1)
     } else {
-      // 마지막 카드 → 학습 완료
-      navigate(`/library`)
+      setIsFinished(true)   // 완료 화면 표시
     }
   }
 
@@ -91,6 +91,21 @@ function Study() {
     )
   }
 
+  // ── 학습 완료 ─────────────────────────────────────────
+  if (isFinished) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 gap-4">
+        <h1 className="text-3xl font-bold">Great job! 🎉</h1>
+        <p className="text-[var(--color-text-secondary)]">
+          You studied {words.length} words
+        </p>
+        <Button onClick={() => navigate('/library')}>
+          Back to Library
+        </Button>
+      </div>
+    )
+  }
+
   const currentWord = words[currentIndex]
 
   return (
@@ -105,7 +120,7 @@ function Study() {
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 18 9 12 15 6"/>
+            <polyline points="15 18 9 12 15 6" />
           </svg>
           Back to Lyrics
         </button>
