@@ -30,7 +30,7 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/library" element={<Library />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/lyrics/:id" element={<Lyrics />} />
+          <Route path="/songs/:id" element={<Lyrics />} />
           <Route path="/study/:id" element={<Study />} />
         </Route>
       </Routes>
