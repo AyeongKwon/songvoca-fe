@@ -33,7 +33,7 @@ function Search() {
         lyrics: song.plainLyrics,
       });
       alert(`"${data.title}" added!`);
-      navigate(`/lyrics/${data.id}`);
+      navigate(`/songs/${data.id}`);
     } catch (err) {
       console.error("Failed to add song", err);
     }
