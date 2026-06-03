@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
+import PrivateRoute from "./components/PrivateRoute";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
@@ -13,8 +14,18 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Layout 적용 (사이드바 + 메인 영역) */}
-        <Route element={<Layout />}>
+        {/* 인증 필요 없음 */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
+        {/* 인증 필요 — Layout 적용 */}
+        <Route
+          element={
+            <PrivateRoute>
+              <Layout />
+            </PrivateRoute>
+          }
+        >
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/library" element={<Library />} />
@@ -22,10 +33,6 @@ function App() {
           <Route path="/songs/:id" element={<Lyrics />} />
           <Route path="/study/:id" element={<Study />} />
         </Route>
-
-        {/* Layout 없는 경로 (전체 화면) */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
       </Routes>
     </BrowserRouter>
   );
