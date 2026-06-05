@@ -9,7 +9,6 @@
 
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import UserMenu from './UserMenu'
 
 const icons = {
     home: (
@@ -82,7 +81,6 @@ function DesktopSidebar() {
                 ))}
             </nav>
             <div className="p-3">
-                <UserMenu />
             </div>
         </aside>
     )
@@ -155,7 +153,6 @@ function MobileHeader() {
                 </nav>
 
                 <div className="p-3">
-                    <UserMenu />
                 </div>
             </div>
         </>
