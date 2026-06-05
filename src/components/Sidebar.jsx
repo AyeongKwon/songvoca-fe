@@ -100,7 +100,7 @@ function MobileHeader() {
                 <button
                     onClick={() => setOpen(true)}
                     className="text-[var(--color-text-primary)] p-1"
-                    aria-label="메뉴 열기"
+                    aria-label="Open menu"
                 >
                     {icons.menu}
                 </button>
@@ -134,7 +134,7 @@ function MobileHeader() {
                     <button
                         onClick={() => setOpen(false)}
                         className="text-[var(--color-text-muted)]"
-                        aria-label="메뉴 닫기"
+                        aria-label="Close menu"
                     >
                         {icons.close}
                     </button>

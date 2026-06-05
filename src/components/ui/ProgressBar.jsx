@@ -32,7 +32,7 @@ export default function ProgressBar({
         <div className={`w-full ${className}`}>
             {showLabel && (
                 <div className="flex justify-between items-center mb-1">
-                    <span className="text-xs text-[var(--color-text-muted)]">진도</span>
+                    <span className="text-xs text-[var(--color-text-muted)]">Progress</span>
                     <span className="text-xs font-medium text-[var(--color-text-secondary)]">{label}</span>
                 </div>
             )}
@@ -47,7 +47,7 @@ export default function ProgressBar({
                     aria-valuenow={value}
                     aria-valuemin={0}
                     aria-valuemax={max}
-                    aria-label={`${label} 완료`}
+                    aria-label={`${label} complete`}
                 />
             </div>
         </div>

@@ -33,7 +33,7 @@ function Songs() {
   useEffect(() => {
     api.get(`/api/songs/${id}`)
       .then((res) => setSong(res.data))
-      .catch(() => setError('Fail to load song.'))
+      .catch(() => setError('Failed to load song.'))
       .finally(() => setIsLoadingSong(false))
   }, [id])
 
@@ -107,7 +107,7 @@ function Songs() {
               Lyrics
             </h2>
             <pre className="text-sm text-[var(--color-text-primary)] leading-relaxed whitespace-pre-wrap font-[var(--font-body)]">
-              {song?.lyrics ?? 'Fail to load lyrics.'}
+              {song?.lyrics ?? 'Failed to load lyrics.'}
             </pre>
           </Card>
         </div>
