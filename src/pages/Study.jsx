@@ -20,12 +20,10 @@ import api from '../api/client'
 import Button from '../components/ui/Button'
 import Card from '../components/ui/Card'
 import ProgressBar from '../components/ui/ProgressBar'
-import { useToast } from '../components/ui/Toast'
 
 function Study() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { showToast } = useToast()
 
   const [words, setWords] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -33,12 +31,13 @@ function Study() {
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
+  const [error, setError] = useState('')
 
   // ── 단어 목록 불러오기 ────────────────────────────────
   useEffect(() => {
     api.get(`/songs/${id}/words`)
       .then((res) => setWords(res.data))
-      .catch(() => showToast('Fail to load words.', 'error'))
+      .catch(() => setError('Fail to load words.'))
       .finally(() => setIsLoading(false))
   }, [id])
 
@@ -51,24 +50,23 @@ function Study() {
   async function handleAnswer(isCorrect) {
     const currentWord = words[currentIndex]
     setIsSubmitting(true)
+    setError('')
 
     try {
-      // PPT 슬라이드 API 기준: POST /api/study-logs
       await api.post('/api/study-logs', {
         word_id: currentWord.id,
         is_correct: isCorrect,
       })
     } catch {
-      showToast('An error occurred while saving.', 'error')
+      setError('An error occurred while saving.')
     } finally {
       setIsSubmitting(false)
     }
 
-    // 다음 카드로 이동
     if (currentIndex + 1 < words.length) {
       setCurrentIndex((prev) => prev + 1)
     } else {
-      setIsFinished(true)   // 완료 화면 표시
+      setIsFinished(true)
     }
   }
 
@@ -111,10 +109,9 @@ function Study() {
   return (
     <div className="flex flex-col gap-6 max-w-lg mx-auto">
 
-      {/* 뒤로가기 + 노래 제목 */}
       <div>
         <button
-          onClick={() => navigate(-1)} // Need to discuss later: songs or previous page
+          onClick={() => navigate(-1)}
           className="flex items-center gap-1 text-sm text-[var(--color-text-muted)]
             hover:text-[var(--color-text-primary)] transition-colors mb-3"
         >
@@ -126,7 +123,6 @@ function Study() {
         </button>
       </div>
 
-      {/* 진도 바 + 카드 번호 */}
       <ProgressBar
         value={currentIndex + 1}
         max={words.length}
@@ -134,7 +130,9 @@ function Study() {
         labelFormat="card"
       />
 
-      {/* 플래시카드 */}
+      {/* 에러 메시지 */}
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+
       <Card.Word
         word={currentWord.word}
         pos={currentWord.pos}
@@ -143,7 +141,6 @@ function Study() {
         onClick={() => setFlipped((prev) => !prev)}
       />
 
-      {/* I know / I don't know 버튼 */}
       <div className="flex gap-3">
         <Button
           variant="outline"
@@ -166,4 +163,4 @@ function Study() {
   )
 }
 
-export default Study;
+export default Study

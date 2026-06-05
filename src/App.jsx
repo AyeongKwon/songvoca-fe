@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Library from "./pages/Library";
 import Profile from "./pages/Profile";
-import Lyrics from "./pages/Lyrics";
+import Songs from "./pages/Songs";
 import Study from "./pages/Study";
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/library" element={<Library />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/songs/:id" element={<Lyrics />} />
+          <Route path="/songs/:id" element={<Songs />} />
           <Route path="/study/:id" element={<Study />} />
         </Route>
       </Routes>
