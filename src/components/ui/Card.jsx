@@ -98,8 +98,8 @@ function SongCard({ title, artist, status = 'not_started', unknownCount, onClick
             {unknownCount !== undefined && (
                 <p className="mt-2 text-xs text-[var(--color-text-muted)]">
                     {unknownCount > 0
-                        ? `${unknownCount}개 단어 학습 중`
-                        : '모든 단어 완료 🎉'}
+                        ? `${unknownCount}words left`
+                        : 'All done! 🎉'}
                 </p>
             )}
         </button>
@@ -119,7 +119,7 @@ function WordCard({ word, pos, definition, flipped = false, onClick, className =
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onClick?.()}
-            aria-label={flipped ? `뒷면: ${definition}` : `앞면: ${word}`}
+            aria-label={flipped ? `Back: ${definition}` : `Front: ${word}`}
         >
             {/* 플립 내부 wrapper */}
             <div
