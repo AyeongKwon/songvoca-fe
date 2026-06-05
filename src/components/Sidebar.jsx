@@ -150,7 +150,6 @@ function MobileHeader() {
                     ))}
                 </nav>
 
-                <div className="p-3">
                 </div>
             </div>
         </>
