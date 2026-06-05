@@ -14,7 +14,7 @@ function Search() {
 
     setLoading(true);
     try {
-      const { data } = await api.get('/api/lrclib/search', {
+      const { data } = await api.get('/api/songs/search', {
         params: { q: query }
       });
       setResults(data);
