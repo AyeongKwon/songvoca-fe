@@ -1,7 +1,7 @@
 /**
- * Lyrics.jsx — 가사 화면
+ * Songs.jsx — 가사 화면
  *
- * 위치: src/pages/Lyrics.jsx
+ * 위치: src/pages/Songs.jsx
  *
  * 기능:
  *   - GET /api/songs/:id 로 노래 정보 + 가사 불러오기
@@ -17,23 +17,23 @@ import { useNavigate, useParams } from 'react-router-dom'
 import api from '../api/client'
 import Button from '../components/ui/Button'
 import Card from '../components/ui/Card'
-import { useToast } from '../components/ui/Toast'
 
-function Lyrics() {
+function Songs() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { showToast } = useToast()
 
   const [song, setSong] = useState(null)
   const [words, setWords] = useState([])
   const [isLoadingSong, setIsLoadingSong] = useState(true)
   const [isExtracting, setIsExtracting] = useState(false)
+  const [error, setError] = useState('')
+  const [successMsg, setSuccessMsg] = useState('')
 
   // ── 노래 정보 + 가사 불러오기 ─────────────────────────
   useEffect(() => {
     api.get(`/api/songs/${id}`)
       .then((res) => setSong(res.data))
-      .catch(() => showToast('Fail to load song.', 'error'))
+      .catch(() => setError('Fail to load song.'))
       .finally(() => setIsLoadingSong(false))
   }, [id])
 
@@ -47,12 +47,14 @@ function Lyrics() {
   // ── AI 단어 추출 ──────────────────────────────────────
   async function handleExtract() {
     setIsExtracting(true)
+    setError('')
+    setSuccessMsg('')
     try {
       const res = await api.post(`/api/songs/${id}/extract`)
       setWords(res.data)
-      showToast("Extraction complete! Let's start learning🎉")
+      setSuccessMsg("Extraction complete! Let's start learning 🎉")
     } catch {
-      showToast('An error occurred during extraction.', 'error')
+      setError('An error occurred during extraction.')
     } finally {
       setIsExtracting(false)
     }
@@ -112,6 +114,10 @@ function Lyrics() {
 
         {/* ── 오른쪽: 단어 추출 + 카드 목록 ── */}
         <div className="w-full md:w-80 shrink-0 flex flex-col gap-4">
+
+          {/* 에러 / 성공 메시지 */}
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {successMsg && <p className="text-green-600 text-sm">{successMsg}</p>}
 
           {/* 추출 버튼 or 학습 시작 버튼 */}
           {words.length === 0 ? (
@@ -173,4 +179,4 @@ function Lyrics() {
   )
 }
 
-export default Lyrics
+export default Songs

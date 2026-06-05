@@ -101,7 +101,7 @@ function Library() {
                 </td>
                 <td className="px-4 py-3">
                   <Link
-                    to={`/lyrics/${song.id}`}
+                    to={`/songs/${song.id}`}
                     className="text-sm underline"
                   >
                     {song.study_status === "completed" ? "Review" : "Resume"}

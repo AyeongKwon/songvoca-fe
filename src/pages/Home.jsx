@@ -38,7 +38,7 @@ function Home() {
           {songs.map((song) => (
             <Link
               key={song.id}
-              to={`/lyrics/${song.id}`}
+              to={`/songs/${song.id}`}
               className="border border-gray-200 rounded p-4 hover:shadow"
             >
               <h3 className="font-bold">{song.title}</h3>
