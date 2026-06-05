@@ -80,7 +80,6 @@ function DesktopSidebar() {
                     </NavLink>
                 ))}
             </nav>
-            <div className="p-3">
             </div>
         </aside>
     )
