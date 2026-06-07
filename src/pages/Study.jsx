@@ -3,13 +3,12 @@
  *
  * 위치: src/pages/Study.jsx
  *
- * 기능:
- *   - 카드 앞면: 한국어 단어
- *   - 카드 뒷면: 영어 뜻 + 품사
- *   - 탭으로 앞/뒤 전환
- *   - "I know / I don't know" 버튼
- *   - POST /api/study-logs 로 학습 결과 저장
- *   - 다음 카드로 이동
+ * 학습 흐름:
+ *   1) 진입 → study-logs 조회해서 학습 상태 파악
+ *      - 학습 전 (기록 없음) → 전체 단어로 시작
+ *      - 학습 중 (모르는 단어 있음) → "이어서 할까요?" 선택
+ *      - 학습 완료 (모두 안다) → 완료 화면
+ *   2) 한 바퀴 완료 → 전체 / 모르는 것 선택
  *
  * 라우팅: /study/:id
  */
@@ -25,30 +24,69 @@ function Study() {
   const { id } = useParams()
   const navigate = useNavigate()
 
-  const [words, setWords] = useState([])
+  const [allWords, setAllWords] = useState([])
+  const [studyQueue, setStudyQueue] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [flipped, setFlipped] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isFinished, setIsFinished] = useState(false)
+  const [sessionAnswers, setSessionAnswers] = useState({})
+  const [roundComplete, setRoundComplete] = useState(false)
 
-  // ── 단어 목록 불러오기 ────────────────────────────────
+  // 시작 모드: 'start'(시작전 선택) | 'studying'(학습중)
+  const [mode, setMode] = useState('start')
+  const [unknownWordIds, setUnknownWordIds] = useState([])  // 기존 모르는 단어 id
+
+  // ── 단어 목록 + 학습 기록 불러오기 ───────────────────
   useEffect(() => {
-    api.get(`/api/songs/${id}/words`)
-      .then((res) => setWords(res.data))
+    Promise.all([
+      api.get(`/api/songs/${id}/words`),
+      api.get(`/api/study-logs?song_id=${id}`),
+    ])
+      .then(([wordsRes, logsRes]) => {
+        const words = wordsRes.data
+        const logs = logsRes.data
+        setAllWords(words)
+
+        // 단어별 최신 학습 기록만 추출
+        const latestByWord = {}
+        logs.forEach((log) => {
+          if (
+            !latestByWord[log.word_id] ||
+            new Date(log.studied_at) > new Date(latestByWord[log.word_id].studied_at)
+          ) {
+            latestByWord[log.word_id] = log
+          }
+        })
+
+        // 모르는 단어 = 최신 기록이 is_correct: false
+        const unknown = Object.values(latestByWord)
+          .filter((log) => !log.is_correct)
+          .map((log) => log.word_id)
+        setUnknownWordIds(unknown)
+
+        const hasHistory = logs.length > 0
+
+        if (!hasHistory) {
+          // 학습 전 → 바로 전체 학습 시작
+          setStudyQueue(words)
+          setMode('studying')
+        }
+        // 학습 기록 있으면 mode='start' 유지 → 선택 화면 보여줌
+      })
       .catch(() => alert('Failed to load words.'))
       .finally(() => setIsLoading(false))
   }, [id])
 
-  // 카드 넘어갈 때 뒤집기 초기화
   useEffect(() => {
     setFlipped(false)
   }, [currentIndex])
 
   // ── 학습 결과 저장 + 다음 카드 ───────────────────────
   async function handleAnswer(isCorrect) {
-    const currentWord = words[currentIndex]
+    const currentWord = studyQueue[currentIndex]
     setIsSubmitting(true)
+    setSessionAnswers((prev) => ({ ...prev, [currentWord.id]: isCorrect }))
 
     try {
       await api.post('/api/study-logs', {
@@ -61,11 +99,43 @@ function Study() {
       setIsSubmitting(false)
     }
 
-    if (currentIndex + 1 < words.length) {
+    if (currentIndex + 1 < studyQueue.length) {
       setCurrentIndex((prev) => prev + 1)
     } else {
-      setIsFinished(true)
+      setRoundComplete(true)
     }
+  }
+
+  // ── 학습 시작 (전체) ──────────────────────────────────
+  function startAll() {
+    setStudyQueue(allWords)
+    setCurrentIndex(0)
+    setSessionAnswers({})
+    setRoundComplete(false)
+    setMode('studying')
+  }
+
+  // ── 학습 시작 (모르는 것만) ──────────────────────────
+  function startUnknown() {
+    const unknown = allWords.filter((w) => unknownWordIds.includes(w.id))
+    if (unknown.length === 0) {
+      navigate('/library')
+      return
+    }
+    setStudyQueue(unknown)
+    setCurrentIndex(0)
+    setSessionAnswers({})
+    setRoundComplete(false)
+    setMode('studying')
+  }
+
+  // ── 뒤로가기 ──────────────────────────────────────────
+  function handleBack() {
+    const hasAnswered = Object.keys(sessionAnswers).length > 0
+    if (hasAnswered && !window.confirm('You have unsaved progress. Leave anyway?')) {
+      return
+    }
+    navigate(-1)
   }
 
   // ── 로딩 중 ───────────────────────────────────────────
@@ -78,7 +148,7 @@ function Study() {
   }
 
   // ── 단어 없음 ─────────────────────────────────────────
-  if (words.length === 0) {
+  if (allWords.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-3">
         <p className="text-[var(--color-text-secondary)]">There are no words to learn.</p>
@@ -87,29 +157,98 @@ function Study() {
     )
   }
 
-  // ── 학습 완료 ─────────────────────────────────────────
-  if (isFinished) {
+  // ── 시작 전 선택 화면 (학습 기록 있을 때) ────────────
+  if (mode === 'start') {
+    const isAllKnown = unknownWordIds.length === 0
+
     return (
-      <div className="flex flex-col items-center justify-center h-64 gap-4">
-        <h1 className="text-3xl font-bold">Great job! 🎉</h1>
-        <p className="text-[var(--color-text-secondary)]">
-          You studied {words.length} words
-        </p>
-        <Button onClick={() => navigate('/library')}>
-          Back to Library
-        </Button>
+      <div className="flex flex-col items-center justify-center h-64 gap-4 max-w-lg mx-auto">
+        {isAllKnown ? (
+          <>
+            <h1 className="text-2xl font-bold">All done! 🎉</h1>
+            <p className="text-[var(--color-text-secondary)]">
+              You know all {allWords.length} words.
+            </p>
+            <Button onClick={startAll}>Study again</Button>
+            <Button variant="ghost" onClick={() => navigate('/library')}>
+              Back to Library
+            </Button>
+          </>
+        ) : (
+          <>
+            <h1 className="text-2xl font-bold">Continue learning</h1>
+            <p className="text-[var(--color-text-secondary)]">
+              {unknownWordIds.length} word{unknownWordIds.length > 1 ? 's' : ''} left to review
+            </p>
+            <div className="flex gap-3 w-full">
+              <Button variant="outline" className="flex-1" onClick={startAll}>
+                Study all ({allWords.length})
+              </Button>
+              <Button className="flex-1" onClick={startUnknown}>
+                Study unknown ({unknownWordIds.length})
+              </Button>
+            </div>
+          </>
+        )}
       </div>
     )
   }
 
-  const currentWord = words[currentIndex]
+  // ── 한 바퀴 완료 → 선택 화면 ─────────────────────────
+  if (roundComplete) {
+    const unknownCount = studyQueue.filter((w) => sessionAnswers[w.id] === false).length
+    const isAllKnown = unknownCount === 0
+
+    return (
+      <div className="flex flex-col items-center justify-center h-64 gap-4 max-w-lg mx-auto">
+        {isAllKnown ? (
+          <>
+            <h1 className="text-3xl font-bold">Great job! 🎉</h1>
+            <p className="text-[var(--color-text-secondary)]">
+              You know all the words!
+            </p>
+            <Button onClick={() => navigate('/library')}>Back to Library</Button>
+          </>
+        ) : (
+          <>
+            <h1 className="text-2xl font-bold">Round complete!</h1>
+            <p className="text-[var(--color-text-secondary)]">
+              {unknownCount} word{unknownCount > 1 ? 's' : ''} to review
+            </p>
+            <div className="flex gap-3 w-full">
+              <Button variant="outline" className="flex-1" onClick={startAll}>
+                Study all ({allWords.length})
+              </Button>
+              <Button
+                className="flex-1"
+                onClick={() => {
+                  const unknown = studyQueue.filter((w) => sessionAnswers[w.id] === false)
+                  setStudyQueue(unknown)
+                  setCurrentIndex(0)
+                  setSessionAnswers({})
+                  setRoundComplete(false)
+                }}
+              >
+                Study unknown ({unknownCount})
+              </Button>
+            </div>
+            <Button variant="ghost" onClick={() => navigate('/library')}>
+              Back to Library
+            </Button>
+          </>
+        )}
+      </div>
+    )
+  }
+
+  const currentWord = studyQueue[currentIndex]
 
   return (
     <div className="flex flex-col gap-6 max-w-lg mx-auto">
 
       <div>
         <button
-          onClick={() => navigate(-1)}
+          onClick={handleBack}
           className="flex items-center gap-1 text-sm text-[var(--color-text-muted)]
             hover:text-[var(--color-text-primary)] transition-colors mb-3"
         >
@@ -123,7 +262,7 @@ function Study() {
 
       <ProgressBar
         value={currentIndex + 1}
-        max={words.length}
+        max={studyQueue.length}
         showLabel
         labelFormat="card"
       />
@@ -158,4 +297,4 @@ function Study() {
   )
 }
 
-export default Study
+export default Study;
