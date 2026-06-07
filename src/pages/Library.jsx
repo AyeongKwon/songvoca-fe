@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/client";
 import Button from "../components/ui/Button";
+import { getStatusLabel, getStatusClass, getActionLabel } from "../utils/songStatus";
 
 function Library() {
   const [songs, setSongs] = useState([]);
@@ -49,8 +50,8 @@ function Library() {
         <button
           onClick={() => setFilter("all")}
           className={`px-4 py-1 rounded-full text-sm ${filter === "all"
-              ? "bg-gray-900 text-white"
-              : "bg-gray-100 text-gray-700"
+            ? "bg-gray-900 text-white"
+            : "bg-gray-100 text-gray-700"
             }`}
         >
           All · {allCount}
@@ -58,8 +59,8 @@ function Library() {
         <button
           onClick={() => setFilter("learning")}
           className={`px-4 py-1 rounded-full text-sm ${filter === "learning"
-              ? "bg-gray-900 text-white"
-              : "bg-gray-100 text-gray-700"
+            ? "bg-gray-900 text-white"
+            : "bg-gray-100 text-gray-700"
             }`}
         >
           Learning · {learningCount}
@@ -67,8 +68,8 @@ function Library() {
         <button
           onClick={() => setFilter("done")}
           className={`px-4 py-1 rounded-full text-sm ${filter === "done"
-              ? "bg-gray-900 text-white"
-              : "bg-gray-100 text-gray-700"
+            ? "bg-gray-900 text-white"
+            : "bg-gray-100 text-gray-700"
             }`}
         >
           Done · {doneCount}
@@ -99,13 +100,8 @@ function Library() {
                 <td className="px-4 py-3 text-sm">{song.title}</td>
                 <td className="px-4 py-3 text-sm">{song.artist}</td>
                 <td className="px-4 py-3">
-                  <span
-                    className={`text-xs px-2 py-1 rounded font-bold ${song.study_status === "completed"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-amber-100 text-amber-800"
-                      }`}
-                  >
-                    {song.study_status === "completed" ? "DONE" : "LEARNING"}
+                  <span className={`text-xs px-2 py-1 rounded font-bold ${getStatusClass(song.study_status)}`}>
+                    {getStatusLabel(song.study_status)}
                   </span>
                 </td>
                 <td className="px-4 py-3">
@@ -113,7 +109,7 @@ function Library() {
                     to={`/songs/${song.id}`}
                     className="text-sm underline"
                   >
-                    {song.study_status === "completed" ? "Review" : "Resume"}
+                    {getActionLabel(song.study_status)}
                   </Link>
                 </td>
                 <td className="px-4 py-3">
