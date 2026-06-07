@@ -17,11 +17,11 @@ function Library() {
   }, []);
 
   // 노래 삭제
-  async function handleDelete(songId) {
+  async function handleDelete(song) {                                     // ← song 전체 받음
     if (!window.confirm(`Delete this song: "${song.title}"?`)) return
     try {
-      await api.delete(`/api/songs/${songId}`)
-      setSongs((prev) => prev.filter((s) => s.id !== songId))
+      await api.delete(`/api/songs/${song.id}`)
+      setSongs((prev) => prev.filter((s) => s.id !== song.id))
     } catch {
       alert('Failed to delete song.')
     }
@@ -48,31 +48,28 @@ function Library() {
       <div className="flex gap-2 mb-6">
         <button
           onClick={() => setFilter("all")}
-          className={`px-4 py-1 rounded-full text-sm ${
-            filter === "all"
+          className={`px-4 py-1 rounded-full text-sm ${filter === "all"
               ? "bg-gray-900 text-white"
               : "bg-gray-100 text-gray-700"
-          }`}
+            }`}
         >
           All · {allCount}
         </button>
         <button
           onClick={() => setFilter("learning")}
-          className={`px-4 py-1 rounded-full text-sm ${
-            filter === "learning"
+          className={`px-4 py-1 rounded-full text-sm ${filter === "learning"
               ? "bg-gray-900 text-white"
               : "bg-gray-100 text-gray-700"
-          }`}
+            }`}
         >
           Learning · {learningCount}
         </button>
         <button
           onClick={() => setFilter("done")}
-          className={`px-4 py-1 rounded-full text-sm ${
-            filter === "done"
+          className={`px-4 py-1 rounded-full text-sm ${filter === "done"
               ? "bg-gray-900 text-white"
               : "bg-gray-100 text-gray-700"
-          }`}
+            }`}
         >
           Done · {doneCount}
         </button>
@@ -93,7 +90,7 @@ function Library() {
               <th className="text-left px-4 py-2 text-xs">ARTIST</th>
               <th className="text-left px-4 py-2 text-xs">STATUS</th>
               <th className="text-left px-4 py-2 text-xs">ACTION</th>
-              <th className="text-left px-4 py-2 text-xs"></th>
+              <th className="text-left px-4 py-2 text-xs">DELETE</th>
             </tr>
           </thead>
           <tbody>
@@ -103,11 +100,10 @@ function Library() {
                 <td className="px-4 py-3 text-sm">{song.artist}</td>
                 <td className="px-4 py-3">
                   <span
-                    className={`text-xs px-2 py-1 rounded font-bold ${
-                      song.study_status === "completed"
+                    className={`text-xs px-2 py-1 rounded font-bold ${song.study_status === "completed"
                         ? "bg-green-100 text-green-800"
                         : "bg-amber-100 text-amber-800"
-                    }`}
+                      }`}
                   >
                     {song.study_status === "completed" ? "DONE" : "LEARNING"}
                   </span>
@@ -122,9 +118,8 @@ function Library() {
                 </td>
                 <td className="px-4 py-3">
                   <Button
-                    size="sm"
-                    variant="danger"
-                    onClick={() => handleDelete(song.id)}
+                    onClick={() => handleDelete(song)}
+                    className="text-xs text-gray-400 hover:text-red-600 transition-colors"
                   >
                     Delete
                   </Button>
