@@ -10,7 +10,7 @@ function Home() {
 
   //API 호출
   useEffect(() => {
-    api.get('/api/songs')
+    api.get('/api/songs/public')
       .then((res) => setSongs(res.data))
       .catch((err) => console.error("Failed to load songs", err))
       .finally(() => setLoading(false));
@@ -23,7 +23,7 @@ function Home() {
       </h1>
 
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold">Your Library</h2>
+        <h2 className="text-lg font-bold">Browse Songs</h2>
         <Link to="/search" className="text-sm underline">
           + Add song
         </Link>

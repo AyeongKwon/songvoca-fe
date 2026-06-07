@@ -42,10 +42,11 @@ function Songs() {
 
   // ── 이미 추출된 단어 있으면 불러오기 ─────────────────
   useEffect(() => {
+    if (!user) return
     api.get(`/api/songs/${id}/words`)
       .then((res) => setWords(res.data))
       .catch(() => { })
-  }, [id])
+  }, [id, user])
 
   // ── AI 단어 추출 ──────────────────────────────────────
   async function handleExtract() {
