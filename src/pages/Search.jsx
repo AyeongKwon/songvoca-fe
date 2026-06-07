@@ -25,7 +25,7 @@ function Search() {
       setResults(data);
     } catch (err) {
       console.error("Search failed", err);
-      alert("Search failed. Please try again.");
+      alert("Search failed😓. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -80,7 +80,7 @@ function Search() {
         </p>
       ) : results.length === 0 ? (
         <p className="text-gray-500 text-center mt-12">
-          No songs found. Try a different keyword.
+          🧐No songs found. Try a different keyword.
         </p>
       ) : (
         <table className="w-full">
@@ -96,8 +96,8 @@ function Search() {
           <tbody>
             {results.map((song) => (
               <tr key={song.id} className="border-b border-gray-200">
-                <td className="px-4 py-3 text-sm">{song.trackName || "Unknown title🧐"}</td>
-                <td className="px-4 py-3 text-sm">{song.artistName || "Unknown artist🫥"}</td>
+                <td className="px-4 py-3 text-sm">{song.trackName || "Unknown title"}</td>
+                <td className="px-4 py-3 text-sm">{song.artistName || "Unknown artist"}</td>
                 <td className="px-4 py-3 text-sm">{song.albumName || "—"}</td>
                 <td className="px-4 py-3 text-sm">{song.duration ? formatDuration(song.duration) : "—"}</td>
                 <td className="px-4 py-3">
