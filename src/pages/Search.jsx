@@ -10,12 +10,14 @@ function Search() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!query.trim()) return;
 
     setLoading(true);
+    setHasSearched(true);
     try {
       const { data } = await api.get('/api/songs/search', {
         params: { q: query }
@@ -72,9 +74,13 @@ function Search() {
 
       {loading ? (
         <p className="text-gray-500 text-center mt-12">Searching...</p>
-      ) : results.length === 0 ? (
+      ) : !hasSearched ? (
         <p className="text-gray-500 text-center mt-12">
           Type a song title or artist name above
+        </p>
+      ) : results.length === 0 ? (
+        <p className="text-gray-500 text-center mt-12">
+          No songs found. Try a different keyword.
         </p>
       ) : (
         <table className="w-full">
@@ -90,10 +96,10 @@ function Search() {
           <tbody>
             {results.map((song) => (
               <tr key={song.id} className="border-b border-gray-200">
-                <td className="px-4 py-3 text-sm">{song.trackName}</td>
-                <td className="px-4 py-3 text-sm">{song.artistName}</td>
-                <td className="px-4 py-3 text-sm">{song.albumName}</td>
-                <td className="px-4 py-3 text-sm">{formatDuration(song.duration)}</td>
+                <td className="px-4 py-3 text-sm">{song.trackName || "Unknown title🧐"}</td>
+                <td className="px-4 py-3 text-sm">{song.artistName || "Unknown artist🫥"}</td>
+                <td className="px-4 py-3 text-sm">{song.albumName || "—"}</td>
+                <td className="px-4 py-3 text-sm">{song.duration ? formatDuration(song.duration) : "—"}</td>
                 <td className="px-4 py-3">
                   <button
                     onClick={() => handleAdd(song)}
