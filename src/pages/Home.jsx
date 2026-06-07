@@ -43,9 +43,6 @@ function Home() {
             >
               <h3 className="font-bold">{song.title}</h3>
               <p className="text-sm text-gray-600">{song.artist}</p>
-              <span className="text-xs mt-2 inline-block">
-                {song.study_status === "completed" ? "✓ DONE" : "📖 LEARNING"}
-              </span>
             </Link>
           ))}
         </div>
