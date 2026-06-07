@@ -131,7 +131,9 @@ function Songs() {
               Lyrics
             </h2>
             <pre className="text-sm text-[var(--color-text-primary)] leading-relaxed whitespace-pre-wrap font-[var(--font-body)]">
-              {song?.lyrics ?? 'Failed to load lyrics.'}
+              {words.length > 0 && song?.lyrics
+              ? highlightLyrics(song.lyrics, words)
+              : song?.lyrics ?? 'Failed to load lyrics.'}
             </pre>
           </Card>
         </div>
