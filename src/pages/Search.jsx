@@ -74,7 +74,12 @@ function Search() {
 
       {loading ? (
         <p className="text-gray-500 text-center mt-12">
-          Searching<span className="animate-bounce inline-block">...</span>
+          Searching
+          <span className="inline-flex gap-0.5 ml-1">
+            <span className="animate-bounce" style={{ animationDelay: '0ms' }}>.</span>
+            <span className="animate-bounce" style={{ animationDelay: '150ms' }}>.</span>
+            <span className="animate-bounce" style={{ animationDelay: '300ms' }}>.</span>
+          </span>
         </p>
       ) : !hasSearched ? (
         <p className="text-gray-500 text-center mt-12">
