@@ -31,13 +31,12 @@ function Study() {
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
-  const [error, setError] = useState('')
 
   // ── 단어 목록 불러오기 ────────────────────────────────
   useEffect(() => {
     api.get(`/api/songs/${id}/words`)
       .then((res) => setWords(res.data))
-      .catch(() => setError('Fail to load words.'))
+      .catch(() => alert('Failed to load words.'))
       .finally(() => setIsLoading(false))
   }, [id])
 
@@ -50,7 +49,6 @@ function Study() {
   async function handleAnswer(isCorrect) {
     const currentWord = words[currentIndex]
     setIsSubmitting(true)
-    setError('')
 
     try {
       await api.post('/api/study-logs', {
@@ -58,7 +56,7 @@ function Study() {
         is_correct: isCorrect,
       })
     } catch {
-      setError('An error occurred while saving.')
+      alert('An error occurred while saving.')
     } finally {
       setIsSubmitting(false)
     }
@@ -129,9 +127,6 @@ function Study() {
         showLabel
         labelFormat="card"
       />
-
-      {/* 에러 메시지 */}
-      {error && <p className="text-red-500 text-sm">{error}</p>}
 
       <Card.Word
         word={currentWord.word}
