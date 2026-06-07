@@ -13,14 +13,17 @@
  */
 
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import api from '../api/client'
+import { useAuth } from '../context/AuthContext'
 import Button from '../components/ui/Button'
 import Card from '../components/ui/Card'
 
 function Songs() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
+  const { user } = useAuth()
 
   const [song, setSong] = useState(null)
   const [words, setWords] = useState([])
@@ -39,13 +42,19 @@ function Songs() {
 
   // ── 이미 추출된 단어 있으면 불러오기 ─────────────────
   useEffect(() => {
+    if (!user) return
     api.get(`/api/songs/${id}/words`)
       .then((res) => setWords(res.data))
       .catch(() => { })
-  }, [id])
+  }, [id, user])
 
   // ── AI 단어 추출 ──────────────────────────────────────
   async function handleExtract() {
+    if (!user) {
+      navigate('/login', { state: { from: location.pathname } })
+      return
+    }
+
     setIsExtracting(true)
     setError('')
     setSuccessMsg('')
@@ -62,6 +71,10 @@ function Songs() {
 
   // ── 학습 모드로 이동 ──────────────────────────────────
   function handleStartStudy() {
+    if (!user) {
+      navigate('/login', { state: { from: location.pathname } })
+      return
+    }
     navigate(`/study/${id}`)
   }
 
