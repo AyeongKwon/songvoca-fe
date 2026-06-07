@@ -125,9 +125,9 @@ function Library() {
                 <td className="px-4 py-3">
                   <Button
                     onClick={() => handleDelete(song)}
-                    className="text-xs text-gray-400 hover:text-red-600 transition-colors"
+                    className="px-2.5 py-1.5 text-sm hover:bg-red-600 hover:opacity-100"
                   >
-                    Delete
+                    X
                   </Button>
                 </td>
               </tr>
