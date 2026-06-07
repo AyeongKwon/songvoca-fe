@@ -59,7 +59,7 @@ const navItems = [
 ]
 
 function navClass({ isActive }) {
-    const base = 'flex items-center gap-3 px-3 py-2 rounded-[var(--radius-md)] text-sm font-medium transition-colors duration-[var(--transition-fast)]'
+    const base = 'flex items-center gap-3 px-3 py-2 rounded-[var(--radius-md)] text-sm font-medium transition-colors duration-[var(--transition-fast)] whitespace-nowrap overflow-visible'
     return isActive
         ? `${base} bg-[var(--color-accent)] text-[var(--color-accent-fg)]`
         : `${base} text-[var(--color-text-secondary)] hover:bg-[var(--color-border-light)] hover:text-[var(--color-text-primary)]`
