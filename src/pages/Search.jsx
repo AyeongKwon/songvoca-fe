@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import api from "../api/client";
 import { useAuth } from '../context/AuthContext'
 
@@ -23,6 +23,7 @@ function Search() {
       setResults(data);
     } catch (err) {
       console.error("Search failed", err);
+      alert("Search failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -30,6 +31,7 @@ function Search() {
 
   const handleAdd = async (song) => {
     if (!user) {
+      alert('Please log in to add songs')
       navigate('/login', { state: { from: location.pathname } })
       return
     }
@@ -43,6 +45,7 @@ function Search() {
       navigate(`/songs/${data.id}`);
     } catch (err) {
       console.error("Failed to add song", err);
+      alert("Failed to add song.");
     }
   };
 
