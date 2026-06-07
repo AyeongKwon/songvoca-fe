@@ -8,9 +8,11 @@ function Login() {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
     try {
       const { data } = await api.post('/api/auth/login', { email, password });
@@ -20,10 +22,11 @@ function Login() {
         token: data.token,
         user: { id: data.id, name: data.name, email: data.email }
       });
-
       navigate("/");
+
     } catch (err) {
       console.error("Login failed", err);
+      setError("Invalid email or password");
     }
   };
 
@@ -52,7 +55,7 @@ function Login() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="maria@example.com"
+              placeholder="email@example.com"
               className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-gray-900"
               required
             />
@@ -69,6 +72,10 @@ function Login() {
               required
             />
           </div>
+
+          {error && (
+            <p className="text-red-500 text-sm">{error}</p>
+          )}
 
           <button
             type="submit"
