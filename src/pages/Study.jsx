@@ -5,9 +5,9 @@
  *
  * 학습 흐름:
  *   1) 진입 → study-logs 조회해서 학습 상태 파악
- *      - 학습 전 (기록 없음) → 전체 단어로 시작
- *      - 학습 중 (모르는 단어 있음) → "이어서 할까요?" 선택
- *      - 학습 완료 (모두 안다) → 완료 화면
+ *      - 학습 전 (기록 없음) → 전체 단어로 바로 시작
+ *      - 일부만 체크 (한 바퀴 안 돔) → "이어서" / "처음부터"
+ *      - 한 바퀴 완료 (전체 체크함) → "전체" / "모르는 것만"
  *   2) 한 바퀴 완료 → 전체 / 모르는 것 선택
  *
  * 라우팅: /study/:id
@@ -35,7 +35,8 @@ function Study() {
 
   // 시작 모드: 'start'(시작전 선택) | 'studying'(학습중)
   const [mode, setMode] = useState('start')
-  const [unknownWordIds, setUnknownWordIds] = useState([])  // 기존 모르는 단어 id
+  const [unknownWordIds, setUnknownWordIds] = useState([])  // 모르는 단어 id
+  const [studiedWordIds, setStudiedWordIds] = useState([])  // 이미 체크한 단어 id
 
   // ── 단어 목록 + 학습 기록 불러오기 ───────────────────
   useEffect(() => {
@@ -59,20 +60,22 @@ function Study() {
           }
         })
 
+        // 체크한 단어 id
+        const studied = Object.keys(latestByWord).map(Number)
+        setStudiedWordIds(studied)
+
         // 모르는 단어 = 최신 기록이 is_correct: false
         const unknown = Object.values(latestByWord)
           .filter((log) => !log.is_correct)
           .map((log) => log.word_id)
         setUnknownWordIds(unknown)
 
-        const hasHistory = logs.length > 0
-
-        if (!hasHistory) {
-          // 학습 전 → 바로 전체 학습 시작
+        // 학습 기록 전혀 없으면 → 바로 전체 학습 시작
+        if (logs.length === 0) {
           setStudyQueue(words)
           setMode('studying')
         }
-        // 학습 기록 있으면 mode='start' 유지 → 선택 화면 보여줌
+        // 기록 있으면 mode='start' 유지 → 선택 화면
       })
       .catch(() => alert('Failed to load words.'))
       .finally(() => setIsLoading(false))
@@ -115,7 +118,21 @@ function Study() {
     setMode('studying')
   }
 
-  // ── 학습 시작 (모르는 것만) ──────────────────────────
+  // ── 이어서 학습 (아직 체크 안 한 단어부터) ───────────
+  function startResume() {
+    const remaining = allWords.filter((w) => !studiedWordIds.includes(w.id))
+    if (remaining.length === 0) {
+      startAll()
+      return
+    }
+    setStudyQueue(remaining)
+    setCurrentIndex(0)
+    setSessionAnswers({})
+    setRoundComplete(false)
+    setMode('studying')
+  }
+
+  // ── 모르는 것만 학습 ──────────────────────────────────
   function startUnknown() {
     const unknown = allWords.filter((w) => unknownWordIds.includes(w.id))
     if (unknown.length === 0) {
@@ -159,11 +176,13 @@ function Study() {
 
   // ── 시작 전 선택 화면 (학습 기록 있을 때) ────────────
   if (mode === 'start') {
-    const isAllKnown = unknownWordIds.length === 0
+    const isRoundComplete = studiedWordIds.length >= allWords.length  // 한 바퀴 돌았는지
+    const isAllKnown = unknownWordIds.length === 0 && isRoundComplete
 
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-4 max-w-lg mx-auto">
         {isAllKnown ? (
+          // 모두 안다 → 완료
           <>
             <h1 className="text-2xl font-bold">All done! 🎉</h1>
             <p className="text-[var(--color-text-secondary)]">
@@ -174,7 +193,8 @@ function Study() {
               Back to Library
             </Button>
           </>
-        ) : (
+        ) : isRoundComplete ? (
+          // 한 바퀴 완료 → 전체 / 모르는 것
           <>
             <h1 className="text-2xl font-bold">Continue learning</h1>
             <p className="text-[var(--color-text-secondary)]">
@@ -186,6 +206,22 @@ function Study() {
               </Button>
               <Button className="flex-1" onClick={startUnknown}>
                 Study unknown ({unknownWordIds.length})
+              </Button>
+            </div>
+          </>
+        ) : (
+          // 일부만 체크 (한 바퀴 못 돔) → 이어서 / 처음부터
+          <>
+            <h1 className="text-2xl font-bold">Resume?</h1>
+            <p className="text-[var(--color-text-secondary)]">
+              You studied {studiedWordIds.length} of {allWords.length} words.
+            </p>
+            <div className="flex gap-3 w-full">
+              <Button variant="outline" className="flex-1" onClick={startAll}>
+                Start over
+              </Button>
+              <Button className="flex-1" onClick={startResume}>
+                Resume
               </Button>
             </div>
           </>
