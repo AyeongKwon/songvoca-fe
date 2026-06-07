@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/client";
+import Button from "../components/ui/Button";
 
 function Library() {
   const [songs, setSongs] = useState([]);
@@ -14,6 +15,17 @@ function Library() {
       .catch((err) => console.error("Failed to load songs", err))
       .finally(() => setLoading(false));
   }, []);
+
+  // 노래 삭제
+  async function handleDelete(songId) {
+    if (!window.confirm('Delete this song?')) return
+    try {
+      await api.delete(`/api/songs/${songId}`)
+      setSongs((prev) => prev.filter((s) => s.id !== songId))
+    } catch {
+      alert('Failed to delete song.')
+    }
+  }
 
   // 필터링
   const filteredSongs = songs.filter((song) => {
@@ -81,6 +93,7 @@ function Library() {
               <th className="text-left px-4 py-2 text-xs">ARTIST</th>
               <th className="text-left px-4 py-2 text-xs">STATUS</th>
               <th className="text-left px-4 py-2 text-xs">ACTION</th>
+              <th className="text-left px-4 py-2 text-xs"></th>
             </tr>
           </thead>
           <tbody>
@@ -106,6 +119,15 @@ function Library() {
                   >
                     {song.study_status === "completed" ? "Review" : "Resume"}
                   </Link>
+                </td>
+                <td className="px-4 py-3">
+                  <Button
+                    size="sm"
+                    variant="danger"
+                    onClick={() => handleDelete(song.id)}
+                  >
+                    Delete
+                  </Button>
                 </td>
               </tr>
             ))}
