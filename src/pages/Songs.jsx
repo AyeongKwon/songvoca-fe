@@ -59,7 +59,7 @@ function Songs() {
     setError('')
     setSuccessMsg('')
     try {
-      const res = await api.post(`/api/songs/${id}/extract`)
+      const res = await api.post(`/api/songs/${id}/extract`, { lyrics: song.lyrics })
       setWords(res.data)
       setSuccessMsg("Extraction complete! Let's start learning 🎉")
     } catch {
