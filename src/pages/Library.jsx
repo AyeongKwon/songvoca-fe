@@ -18,7 +18,7 @@ function Library() {
 
   // 노래 삭제
   async function handleDelete(songId) {
-    if (!window.confirm('Delete this song?')) return
+    if (!window.confirm(`Delete this song: "${song.title}"?`)) return
     try {
       await api.delete(`/api/songs/${songId}`)
       setSongs((prev) => prev.filter((s) => s.id !== songId))
