@@ -23,7 +23,7 @@ function Home() {
       </h1>
 
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold">Browse Songs</h2>
+        <h2 className="text-lg font-bold">🔥Hot Songs🔥</h2>
         <Link to="/search" className="text-sm underline">
           + Add song
         </Link>
