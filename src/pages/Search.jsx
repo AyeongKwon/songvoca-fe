@@ -73,8 +73,8 @@ function Search() {
       </form>
 
       {loading ? (
-        <p className="text-gray-500 text-center mt-12">
-          Searching
+        <p className="text-xl text-gray-700 text-center mt-12">
+          🔎 Searching
           <span className="inline-flex gap-0.5 ml-1">
             <span className="animate-bounce" style={{ animationDelay: '0ms' }}>.</span>
             <span className="animate-bounce" style={{ animationDelay: '150ms' }}>.</span>
