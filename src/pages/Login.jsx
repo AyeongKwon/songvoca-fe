@@ -8,11 +8,9 @@ function Login() {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
 
     try {
       const { data } = await api.post('/api/auth/login', { email, password });
@@ -26,7 +24,7 @@ function Login() {
 
     } catch (err) {
       console.error("Login failed", err);
-      setError("Invalid email or password");
+      alert("Invalid email or password");
     }
   };
 
@@ -72,10 +70,6 @@ function Login() {
               required
             />
           </div>
-
-          {error && (
-            <p className="text-red-500 text-sm">{error}</p>
-          )}
 
           <button
             type="submit"

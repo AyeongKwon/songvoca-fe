@@ -1,10 +1,16 @@
 import { Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 
 export default function PrivateRoute({ children }) {
   const { user, isLoading } = useAuth()
   
-  // 로그인 상태 확인 중
+  useEffect(() => {
+    if (!isLoading && !user) {
+      alert('Please log in to continue')
+    }
+  }, [user, isLoading])
+  
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -13,7 +19,6 @@ export default function PrivateRoute({ children }) {
     )
   }
   
-  // 로그인 안 됐으면 /login으로
   if (!user) {
     return <Navigate to="/login" replace />
   }
