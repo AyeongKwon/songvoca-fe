@@ -31,13 +31,14 @@ function Library() {
   // 필터링
   const filteredSongs = songs.filter((song) => {
     if (filter === "all") return true;
+    if (filter === "new") return song.study_status === "not_started";
     if (filter === "learning") return song.study_status === "in_progress";
     if (filter === "done") return song.study_status === "completed";
     return true;
   });
-
-  // 개수 계산
+  //개수 계산
   const allCount = songs.length;
+  const newCount = songs.filter((s) => s.study_status === "not_started").length;
   const learningCount = songs.filter((s) => s.study_status === "in_progress").length;
   const doneCount = songs.filter((s) => s.study_status === "completed").length;
 
@@ -46,7 +47,7 @@ function Library() {
       <h1 className="text-3xl font-bold mb-6">Library</h1>
 
       {/* 필터 탭 */}
-      <div className="flex gap-2 mb-6">
+      <div className="flex flex-wrap gap-2 mb-6">
         <button
           onClick={() => setFilter("all")}
           className={`px-4 py-1 rounded-full text-sm ${filter === "all"
@@ -55,6 +56,15 @@ function Library() {
             }`}
         >
           All · {allCount}
+        </button>
+        <button
+          onClick={() => setFilter("new")}
+          className={`px-4 py-1 rounded-full text-sm ${filter === "new"
+            ? "bg-gray-900 text-white"
+            : "bg-gray-100 text-gray-700"
+            }`}
+        >
+          New · {newCount}
         </button>
         <button
           onClick={() => setFilter("learning")}
