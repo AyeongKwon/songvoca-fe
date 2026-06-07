@@ -22,6 +22,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/songs/:id" element={<Songs />} />
+          <Route path="/search" element={<Search />} />
         </Route>
 
         {/* 인증 필요 — Layout 적용 */}
@@ -32,7 +33,6 @@ function App() {
             </PrivateRoute>
           }
         >
-          <Route path="/search" element={<Search />} />
           <Route path="/library" element={<Library />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/study/:id" element={<Study />} />
