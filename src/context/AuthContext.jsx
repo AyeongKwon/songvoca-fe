@@ -18,7 +18,7 @@ const AuthContext = createContext(null)
 
 export function useAuth() {
     const ctx = useContext(AuthContext)
-    if (!ctx) throw new Error('useAuth는 AuthProvider 안에서 써야 해요!')
+    if (!ctx) throw new Error('useAuth must be used within an AuthProvider!')
     return ctx
 }
 
@@ -44,11 +44,9 @@ export function AuthProvider({ children }) {
     }, [])
 
     // ── 로그인 ─────────────────────────────────────────────
-    // 백엔드 응답: { token, id, email, name }
-    // user 객체로 묶어서 저장
-    function login({ token, id, email, name }) {
+    function login({ token, user }) {
         localStorage.setItem('token', token)
-        setUser({ id, email, name })
+        setUser(user)
     }
 
     // ── 로그아웃 ───────────────────────────────────────────
