@@ -73,7 +73,7 @@ function Search() {
       </form>
 
       {loading ? (
-        <p className="text-gray-500 text-center mt-12">Searching...</p>
+        <p className="text-gray-500 text-center mt-12 animate-pulse">Searching...</p>
       ) : !hasSearched ? (
         <p className="text-gray-500 text-center mt-12">
           Type a song title or artist name above
