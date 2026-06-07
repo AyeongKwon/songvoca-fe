@@ -19,11 +19,11 @@ function Home() {
   return (
     <div>
       <h1 className="text-3xl font-bold mb-8">
-        Hi, {user?.name || "there"} 👋
+        {user ? `Hi, ${user.name} 👋` : "Welcome to SongVoca 🎵"}
       </h1>
 
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold">🔎Hot Songs🔥</h2>
+        <h2 className="text-lg font-bold">🔥Hot Songs</h2>
         <Link to="/search" className="text-sm underline">
           + Add song
         </Link>
