@@ -78,6 +78,20 @@ function Songs() {
     navigate(`/study/${id}`)
   }
 
+  function highlightLyrics(lyrics, wordList) {
+    if (!wordList.length) return lyrics
+
+    const words = wordList.map((w) => w.word)
+    const regex = new RegExp(`(${words.join('|')})`, 'g')
+    const parts = lyrics.split(regex)
+
+    return parts.map((part, i) =>
+      words.includes(part)
+        ? <mark key={i} className="bg-yellow-100 text-yellow-800 rounded px-0.5">{part}</mark>
+        : part
+    )
+  }
+
   // ── 로딩 중 ───────────────────────────────────────────
   if (isLoadingSong) {
     return (
