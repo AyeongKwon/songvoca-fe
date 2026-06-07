@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import api from "../api/client";
+import { useAuth } from '../context/AuthContext'
 
 function Search() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { user } = useAuth();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -26,6 +29,10 @@ function Search() {
   };
 
   const handleAdd = async (song) => {
+    if (!user) {
+      navigate('/login', { state: { from: location.pathname } })
+      return
+    }
     try {
       const { data } = await api.post('/api/songs', {
         title: song.trackName,
