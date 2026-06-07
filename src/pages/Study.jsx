@@ -35,7 +35,7 @@ function Study() {
 
   // ── 단어 목록 불러오기 ────────────────────────────────
   useEffect(() => {
-    api.get(`/songs/${id}/words`)
+    api.get(`/api/songs/${id}/words`)
       .then((res) => setWords(res.data))
       .catch(() => setError('Fail to load words.'))
       .finally(() => setIsLoading(false))
