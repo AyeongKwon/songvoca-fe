@@ -22,12 +22,7 @@ function Home() {
         {user ? `Hi, ${user.name} 👋` : "Welcome to SongVoca 🎵"}
       </h1>
 
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold">🔥Hot Songs</h2>
-        <Link to="/search" className="text-sm underline">
-          + Add song
-        </Link>
-      </div>
+      <h2 className="text-lg font-bold mb-4">🔥Hot Songs</h2>
 
       {loading ? (
         <p className="text-gray-500">Loading...</p>
