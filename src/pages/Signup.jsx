@@ -11,21 +11,19 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
 
     // 비밀번호 일치 확인
     if (password !== passwordConfirm) {
-      setError("Passwords do not match");
+      alert("Passwords do not match");
       return;
     }
 
     // 비밀번호 최소 길이 (간단한 검증)
     if (password.length < 6) {
-      setError("Password must be at least 6 characters");
+      alert("Password must be at least 6 characters");
       return;
     }
 
@@ -43,6 +41,7 @@ function Signup() {
       navigate("/");
     } catch (err) {
       console.error("Signup failed", err);
+      alert("Signup failed. Please try again.");
     }
   };
 
@@ -71,7 +70,7 @@ function Signup() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Maria"
+              placeholder="Hong Gil-dong"
               className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-gray-900"
               required
             />
@@ -83,7 +82,7 @@ function Signup() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="maria@example.com"
+              placeholder="email@example.com"
               className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-gray-900"
               required
             />
@@ -112,11 +111,6 @@ function Signup() {
               required
             />
           </div>
-
-          {/* 에러 메시지 */}
-          {error && (
-            <p className="text-red-500 text-sm">{error}</p>
-          )}
 
           <button
             type="submit"
