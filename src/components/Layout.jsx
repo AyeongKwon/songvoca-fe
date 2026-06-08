@@ -35,6 +35,7 @@ export default function Layout() {
                     'min-w-0',                      // flex child 오버플로 방지
                     'px-4 py-6',                    // 모바일 패딩
                     'md:px-8 md:py-8',             // 데스크탑 패딩
+                    'pt-20 md:pt-8',                // 모바일: 상단 헤더 높이만큼 띄우기 -> 잘림 문제 해결
                     'pb-20 md:pb-8',               // 모바일: 하단 탭바 높이만큼 패딩
                     'max-w-[var(--content-max-width)]', // 콘텐츠 최대 너비
                 ].join(' ')}
