@@ -22,7 +22,7 @@ function Search() {
       setResults(data);
     } catch (err) {
       console.error("Search failed", err);
-      alert("Search failed😓. Please try again.");
+      alert("Search failed😓.\nPlease try again.");
     } finally {
       setLoading(false);
     }
@@ -75,7 +75,9 @@ function Search() {
         </p>
       ) : results.length === 0 ? (
         <p className="text-gray-500 text-center mt-12">
-          🧐No songs found. Try a different keyword.
+          No songs found.
+          <br />
+          Try a different keyword.🧐
         </p>
       ) : (
         <table className="w-full">

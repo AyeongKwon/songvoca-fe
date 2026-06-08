@@ -1,9 +1,21 @@
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import api from '../api/client'
 
 function Profile() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const [stats, setStats] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  //── 학습 통계 불러오기 ────────────────────────────────
+  useEffect(() => {
+    api.get('/api/auth/me')
+      .then((res) => setStats(res.data))
+      .catch((err) => console.error('Failed to load stats', err))
+      .finally(() => setLoading(false))
+  }, [])
 
   function handleLogout() {
     logout()
@@ -28,6 +40,29 @@ function Profile() {
         </div>
       </div>
 
+      {/* 학습 통계 */}
+      <h2 className="text-lg font-bold mb-4">My Stats</h2>
+      {loading ? (
+        <p className="text-gray-500 mb-8">Loading...</p>
+      ) : stats ? (
+        <div className="grid grid-cols-3 gap-3 mb-8">
+          <Link to="/library" className="border border-gray-200 rounded p-4 text-center hover:shadow">
+            <p className="text-2xl font-bold text-gray-900">{stats.songs}</p>
+            <p className="text-xs text-gray-500 mt-1">My songs</p>
+          </Link>
+          <div className="border border-gray-200 rounded p-4 text-center">
+            <p className="text-2xl font-bold text-gray-900">{stats.knowWords}</p>
+            <p className="text-xs text-gray-500 mt-1">Words I know</p>
+          </div>
+          <div className="border border-gray-200 rounded p-4 text-center">
+            <p className="text-2xl font-bold text-gray-900">{stats.wholeWords}</p>
+            <p className="text-xs text-gray-500 mt-1">Total words</p>
+          </div>
+        </div>
+      ) : (
+        <p className="text-gray-500 mb-8">Failed to load stats.</p>
+      )}
+
       {/* 로그아웃 */}
       <button
         onClick={handleLogout}
@@ -45,4 +80,4 @@ function Profile() {
   )
 }
 
-export default Profile
+export default Profile;

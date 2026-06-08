@@ -149,7 +149,8 @@ function Study() {
   // ── 뒤로가기 ──────────────────────────────────────────
   function handleBack() {
     const hasAnswered = Object.keys(sessionAnswers).length > 0
-    if (hasAnswered && !window.confirm('You have unsaved progress. Leave anyway?')) {
+    const remaining = studyQueue.length - currentIndex
+    if (hasAnswered && !window.confirm(`${remaining} words are still waiting to be studied.\nLeave anyway?`)) {
       return
     }
     navigate(-1)

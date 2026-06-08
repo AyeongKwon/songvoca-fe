@@ -197,7 +197,9 @@ function Songs() {
                   Extracting words...
                 </span>
               ) : (
-                'Add library🎧 & Extract words📑'
+                <>
+                  🎧 Add library & Extract words 📑
+                </>
               )}
             </Button>
           ) : (
