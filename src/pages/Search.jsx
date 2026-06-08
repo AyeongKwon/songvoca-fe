@@ -38,11 +38,12 @@ function Search() {
     })
   }
 
-  // 초를 분:초로 변환
+  // 초를 분:초로 변환, 노래 duration 표시
   const formatDuration = (sec) => {
     const min = Math.floor(sec / 60);
-    const s = sec % 60;
-    return `${min}:${String(s).padStart(2, "0")}`;
+    let s = Math.floor(sec % 60);
+    s = String(s).padStart(2, "0");
+    return `${min}:${s}`;
   };
 
   return (
@@ -83,7 +84,7 @@ function Search() {
               <th className="text-left px-4 py-2 text-xs">TITLE</th>
               <th className="text-left px-4 py-2 text-xs">ARTIST</th>
               <th className="text-left px-4 py-2 text-xs">ALBUM</th>
-              <th className="text-left px-4 py-2 text-xs">LENGTH</th>
+              <th className="text-left px-4 py-2 text-xs">DURATION</th>
               <th className="text-left px-4 py-2 text-xs"></th>
             </tr>
           </thead>
