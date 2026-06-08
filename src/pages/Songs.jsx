@@ -6,7 +6,7 @@
  * 기능:
  *   - GET /api/songs/:id 로 노래 정보 + 가사 불러오기
  *   - "Extract words with AI" 버튼 → POST /api/songs/:id/extract
- *   - 추출된 단어 카드 목록 표시
+ *   - 추출된 단어 카드 목록 표시 (삭제 가능)
  *   - 추출 완료 후 학습 모드로 이동
  *
  * 라우팅: /songs/:id
@@ -109,6 +109,17 @@ function Songs() {
       alert('An error occurred.')
     } finally {
       setIsExtracting(false)
+    }
+  }
+
+  // ── 단어 삭제 ─────────────────────────────────────────
+  async function handleDeleteWord(word) {
+    if (!window.confirm(`Delete "${word.word}"?`)) return
+    try {
+      await api.delete(`/api/words/${word.id}`)
+      setWords((prev) => prev.filter((w) => w.id !== word.id))
+    } catch {
+      alert('Failed to delete word.')
     }
   }
 
@@ -224,12 +235,25 @@ function Songs() {
                       <p className="font-medium text-[var(--color-text-primary)]">{word.word}</p>
                       <p className="text-xs text-[var(--color-text-muted)] mt-0.5">{word.definition}</p>
                     </div>
-                    {word.pos && (
-                      <span className="text-[10px] font-semibold text-[var(--color-text-muted)]
-                        uppercase tracking-widest shrink-0 mt-0.5">
-                        {word.pos}
-                      </span>
-                    )}
+                    <div className="flex items-center gap-2 shrink-0">
+                      {word.pos && (
+                        <span className="text-[10px] font-semibold text-[var(--color-text-muted)]
+                          uppercase tracking-widest mt-0.5">
+                          {word.pos}
+                        </span>
+                      )}
+                      <button
+                        onClick={() => handleDeleteWord(word)}
+                        className="text-[var(--color-text-muted)] hover:text-red-500 transition-colors"
+                        aria-label="Delete word"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="18" y1="6" x2="6" y2="18" />
+                          <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 </Card>
               ))}
@@ -250,4 +274,4 @@ function Songs() {
   )
 }
 
-export default Songs
+export default Songs;
