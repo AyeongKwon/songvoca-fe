@@ -117,15 +117,15 @@ function Library() {
                 <td className="px-4 py-3">
                   <Link
                     to={`/songs/${song.id}`}
-                    className="text-sm underline"
+                    className="text-sm text-gray-700 hover:text-gray-900 hover:underline inline-flex items-center gap-1"
                   >
-                    {getActionLabel(song.study_status)}
+                    ▶ {getActionLabel(song.study_status)}
                   </Link>
                 </td>
                 <td className="px-4 py-3">
                   <Button
                     onClick={() => handleDelete(song)}
-                    className="px-2.5 py-1 text-sm hover:bg-red-600 hover:opacity-100"
+                    className="text-xs px-1 py-1 rounded font-bold bg-[var(--color-surface-alt)] text-red-700 hover:bg-red-200"
                   >
                     X
                   </Button>
