@@ -1,26 +1,126 @@
-# React + Vite
+# 🎵 SongVoca — FE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![CI](https://github.com/AyeongKwon/songvoca-fe/actions/workflows/ci.yml/badge.svg)](https://github.com/AyeongKwon/songvoca-fe/actions/workflows/ci.yml)
 
-Currently, two official plugins are available:
+Learn Korean vocabulary through the songs you love🤍
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+SongVoca is a Korean vocabulary learning web app. Search for a K-pop or Korean song, load its lyrics, and let AI extract useful vocabulary into flashcards. Study words in context — the way language is actually used.
 
-## React Compiler
+🌐 **Live Demo**: https://songvoca-fe.vercel.app/
+📦 **Backend Repository**: [songvoca-backend](https://github.com/Kimhyewon0621/songvoca-backend)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Features
 
-## Expanding the ESLint configuration
+- **Song Search** — Search songs by title or artist via LRCLIB API
+- **AI Vocabulary Extraction** — Gemini AI extracts Korean words with definitions and grammar notes
+- **Flashcard Study** — Flip cards with "I know" / "I don't know" tracking
+- **My Library** — Save and manage songs with learning progress status
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🖥️ Tech Stack
 
-## Environment Variables
+| Category | Technology |
+| --- | --- |
+| Framework | React + Vite |
+| Styling | Tailwind CSS |
+| HTTP Client | Axios |
+| Routing | React Router v7 |
+| Deployment | Vercel |
 
-Create `.env` file in project root:
+## 📁 Project Structure
 
-\`\`\`
-VITE_API_URL=http://localhost:3000
-\`\`\`
+```
+songvoca-fe/
+├── .github/
+│   └── workflows/
+│       └── ci.yml              # GitHub Actions CI workflow
+├── src/
+│   ├── api/
+│   │   └── client.js           # Axios client with JWT interceptor
+│   ├── components/
+│   │   ├── ui/                 # Reusable UI (Button, Card, etc.)
+│   │   ├── Layout.jsx          # Shared layout (sidebar + main)
+│   │   ├── PrivateRoute.jsx    # Auth route guard
+│   │   └── Sidebar.jsx         # Sidebar navigation
+│   ├── context/
+│   │   └── AuthContext.jsx     # Global auth state
+│   ├── pages/
+│   │   ├── Home.jsx            # Shared song pool
+│   │   ├── Library.jsx         # Personal study library
+│   │   ├── Login.jsx
+│   │   ├── Profile.jsx
+│   │   ├── Search.jsx          # LRCLIB song search
+│   │   ├── Signup.jsx
+│   │   ├── Songs.jsx           # Lyrics + vocabulary extraction
+│   │   └── Study.jsx           # Flashcard study mode
+│   ├── styles/
+│   │   └── tokens.css          # Design tokens (colors, fonts, etc.)
+│   ├── utils/
+│   │   └── songStatus.js       # Learning status label utility
+│   ├── App.jsx                 # Route definitions
+│   ├── index.css               # Global styles
+│   └── main.jsx                # Entry point
+├── .env.example                # Environment variable template
+├── .gitignore
+├── eslint.config.js
+├── index.html
+├── package.json
+├── vercel.json                 # Vercel deployment config
+└── vite.config.js
+```
 
-For production, the URL will point to the deployed backend.
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 20+
+- npm
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/AyeongKwon/songvoca-fe.git
+cd songvoca-fe
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env
+
+# Start the dev server
+npm run dev
+```
+
+App runs at `http://localhost:5173`.
+
+### Environment Variables
+
+Create a `.env` file at the project root.
+
+| Variable | Description | Example |
+| --- | --- | --- |
+| `VITE_API_URL` | Backend API base URL | `https://songvoca-backend.onrender.com` |
+
+### Build & Test
+
+```bash
+# Production build
+npm run build
+
+# Preview production build locally
+npm run preview
+
+# Lint check
+npm run lint
+```
+
+## 📝 AI Usage
+
+This project uses the **Google Gemini API** for Korean vocabulary extraction from song lyrics.
+
+AI tools such as **GitHub Copilot** and **Claude** were used during development.
+
+## 📄 License
+
+This project is for academic purposes — ITM519 Web Programming, SeoulTech, 2026.
