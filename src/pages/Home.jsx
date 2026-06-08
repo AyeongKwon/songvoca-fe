@@ -22,7 +22,12 @@ function Home() {
         {user ? `Hi, ${user.name} 👋` : "Welcome to SongVoca 🎵"}
       </h1>
 
-      <h2 className="text-lg font-bold mb-4">🔥Hot Songs</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-bold">🔥 Hot Songs</h2>
+        <Link to="/search" className="text-sm bg-[var(--color-surface-alt)] text-[var(--color-text-secondary)] px-3 py-1.5 rounded hover:opacity-80">
+          🔎Go to search
+        </Link>
+      </div>
 
       {loading ? (
         <p className="text-gray-500">Loading...</p>
@@ -30,15 +35,15 @@ function Home() {
         <p className="text-gray-500">No songs yet. Search and add your first song!</p>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {songs.map((song) => (
-            <Link
-              key={song.id}
-              to={`/songs/${song.id}`}
-              className="border border-gray-200 rounded p-4 hover:shadow"
-            >
-              <h3 className="font-bold">{song.title}</h3>
-              <p className="text-sm text-gray-600">{song.artist}</p>
-            </Link>
+          { [...songs].sort((a, b) => b.id - a.id).map((song) => (
+          <Link
+            key={song.id}
+            to={`/songs/${song.id}`}
+            className="border border-gray-200 rounded p-4 hover:shadow"
+          >
+            <h3 className="font-bold">{song.title}</h3>
+            <p className="text-sm text-gray-600">{song.artist}</p>
+          </Link>
           ))}
         </div>
       )}
