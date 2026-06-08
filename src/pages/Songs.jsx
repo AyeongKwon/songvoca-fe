@@ -67,47 +67,45 @@ function Songs() {
     }
 
     setIsExtracting(true)
+    let createdSongId = null //롤백용
+
     try {
-      let targetId = id
+      // 1. 본인 song row 생성 (응답으로 본인 id 받음)
+      const { data: newSong } = await api.post('/api/songs', {
+        title: song.title,
+        artist: song.artist,
+        lyrics: song.lyrics,
+      })
+      createdSongId = newSong.id
 
-      if (isPreview) {
-        // preview: 우리 DB에 새로 추가
-        const { data: newSong } = await api.post('/api/songs', {
-          title: song.title,
-          artist: song.artist,
-          lyrics: song.lyrics,
-        })
-        targetId = newSong.id
-      } else {
-        // 일반: 이미 우리 DB에 있는 노래. 본인 라이브러리 추가 시도 (409 무시)
-        try {
-          await api.post('/api/songs', {
-            title: song.title,
-            artist: song.artist,
-            lyrics: song.lyrics,
-          })
-        } catch (err) {
-          if (err.response?.status !== 409) {
-            alert("Failed to add song to library")
-            return
-          }
-          // 409면 무시하고 추출 계속
-          console.log("Already in library, proceeding with extraction")
-        }
-      }
-
-      // 단어 추출
-      const res = await api.post(`/api/songs/${targetId}/extract`, { lyrics: song.lyrics })
+      // 2. 본인 song id로 단어 추출
+      const res = await api.post(`/api/songs/${newSong.id}/extract`, {
+        lyrics: song.lyrics
+      })
       setWords(res.data)
 
-      // preview였으면 URL 정리 (preview → 진짜 id로)
-      if (isPreview) {
-        navigate(`/songs/${targetId}`, { replace: true })
+      // 둘 다 성공 — 롤백 안 함
+      createdSongId = null
+
+      // 3. URL이 다르면 정리 (preview거나 Home에서 옴)
+      if (String(newSong.id) !== id) {
+        navigate(`/songs/${newSong.id}`, { replace: true })
       }
 
       alert("Added to your library! Let's start learning 🎉")
     } catch (err) {
       console.error(err)
+
+      // 롤백: extract 실패 시 방금 만든 song 삭제(추출실패했을경우 라이브러리에 add도 안되도록)
+      if (createdSongId) {
+        try {
+          await api.delete(`/api/songs/${createdSongId}`)
+          console.log('Rolled back: deleted song', createdSongId)
+        } catch (deleteErr) {
+          console.error('Failed to roll back:', deleteErr)
+        }
+      }
+
       alert('An error occurred.')
     } finally {
       setIsExtracting(false)
@@ -199,7 +197,7 @@ function Songs() {
                   Extracting words...
                 </span>
               ) : (
-                'Add library🎶 & Extract words📖'
+                'Add library🎧 & Extract words📑'
               )}
             </Button>
           ) : (
