@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../api/client";
-import { useAuth } from '../context/AuthContext'
 
 function Search() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { user } = useAuth();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,31 +28,22 @@ function Search() {
     }
   };
 
-  const handleAdd = async (song) => {
-    if (!user) {
-      alert('Please log in to add songs')
-      navigate('/login', { state: { from: location.pathname } })
-      return
-    }
-    try {
-      const { data } = await api.post('/api/songs', {
+  const handleView = (song) => {
+    navigate('/songs/preview', {
+      state: {
         title: song.trackName,
         artist: song.artistName,
         lyrics: song.plainLyrics,
-      });
-      alert(`"${data.title}" added!`);
-      navigate(`/songs/${data.id}`);
-    } catch (err) {
-      console.error("Failed to add song", err);
-      alert("Failed to add song.");
-    }
-  };
+      }
+    })
+  }
 
-  // 초를 분:초로 변환
+  // 초를 분:초로 변환, 노래 duration 표시
   const formatDuration = (sec) => {
     const min = Math.floor(sec / 60);
-    const s = sec % 60;
-    return `${min}:${String(s).padStart(2, "0")}`;
+    let s = Math.floor(sec % 60);
+    s = String(s).padStart(2, "0");
+    return `${min}:${s}`;
   };
 
   return (
@@ -96,8 +84,8 @@ function Search() {
               <th className="text-left px-4 py-2 text-xs">TITLE</th>
               <th className="text-left px-4 py-2 text-xs">ARTIST</th>
               <th className="text-left px-4 py-2 text-xs">ALBUM</th>
-              <th className="text-left px-4 py-2 text-xs">LENGTH</th>
-              <th className="text-left px-4 py-2 text-xs">ADD</th>
+              <th className="text-left px-4 py-2 text-xs">DURATION</th>
+              <th className="text-left px-4 py-2 text-xs"></th>
             </tr>
           </thead>
           <tbody>
@@ -109,10 +97,10 @@ function Search() {
                 <td className="px-4 py-3 text-sm">{song.duration ? formatDuration(song.duration) : "—"}</td>
                 <td className="px-4 py-3">
                   <button
-                    onClick={() => handleAdd(song)}
+                    onClick={() => handleView(song)}
                     className="bg-gray-900 text-white px-3 py-1 rounded text-xs font-bold hover:bg-gray-800"
                   >
-                    + Add
+                    View
                   </button>
                 </td>
               </tr>

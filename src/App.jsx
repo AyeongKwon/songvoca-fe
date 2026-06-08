@@ -21,6 +21,7 @@ function App() {
         {/* Public — Layout 적용 */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/songs/preview" element={<Songs />} />
           <Route path="/songs/:id" element={<Songs />} />
           <Route path="/search" element={<Search />} />
         </Route>

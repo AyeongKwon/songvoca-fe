@@ -24,6 +24,7 @@ function Songs() {
   const navigate = useNavigate()
   const location = useLocation()
   const { user } = useAuth()
+  const isPreview = !id //search에서 song볼때 사용
   const [song, setSong] = useState(null)
   const [words, setWords] = useState([])
   const [isLoadingSong, setIsLoadingSong] = useState(true)
@@ -31,35 +32,81 @@ function Songs() {
 
   // ── 노래 정보 + 가사 불러오기 ─────────────────────────
   useEffect(() => {
-    api.get(`/api/songs/${id}`)
-      .then((res) => setSong(res.data))
-      .catch(() => alert('Failed to load song.'))
-      .finally(() => setIsLoadingSong(false))
-  }, [id])
+    if (isPreview) {
+      // preview 모드 — Search에서 넘긴 state 사용
+      if (location.state) {
+        setSong(location.state)
+      } else {
+        alert('Song data missing')
+        navigate('/search')
+      }
+      setIsLoadingSong(false)
+    } else {
+      // 일반 모드 — DB에서 가져옴
+      api.get(`/api/songs/${id}`)
+        .then((res) => setSong(res.data))
+        .catch(() => alert('Failed to load song.'))
+        .finally(() => setIsLoadingSong(false))
+    }
+  }, [id, isPreview])
 
   // ── 이미 추출된 단어 있으면 불러오기 ─────────────────
   useEffect(() => {
-    if (!user) return
+    if (!user || isPreview) return // preview면 우리 DB에 없는 노래니까
     api.get(`/api/songs/${id}/words`)
       .then((res) => setWords(res.data))
       .catch(() => { })
-  }, [id, user])
+  }, [id, user, isPreview])
 
   // ── AI 단어 추출 ──────────────────────────────────────
   async function handleExtract() {
     if (!user) {
-      alert('Please log in to extract words')
+      alert('Please log in to start learning')
       navigate('/login', { state: { from: location.pathname } })
       return
     }
 
     setIsExtracting(true)
+    let createdSongId = null //롤백용
+
     try {
-      const res = await api.post(`/api/songs/${id}/extract`, { lyrics: song.lyrics })
+      // 1. 본인 song row 생성 (응답으로 본인 id 받음)
+      const { data: newSong } = await api.post('/api/songs', {
+        title: song.title,
+        artist: song.artist,
+        lyrics: song.lyrics,
+      })
+      createdSongId = newSong.id
+
+      // 2. 본인 song id로 단어 추출
+      const res = await api.post(`/api/songs/${newSong.id}/extract`, {
+        lyrics: song.lyrics
+      })
       setWords(res.data)
-      alert("Extraction complete! Let's start learning 🎉")
-    } catch {
-      alert('An error occurred during extraction.')
+
+      // 둘 다 성공 — 롤백 안 함
+      createdSongId = null
+
+      // 3. URL이 다르면 정리 (preview거나 Home에서 옴)
+      if (String(newSong.id) !== id) {
+        navigate(`/songs/${newSong.id}`, { replace: true })
+      }
+
+      alert("Added to your library! Let's start learning 🎉")
+    } catch (err) {
+      console.error(err)
+
+      // 롤백: extract 실패 시 방금 만든 song 삭제(추출실패했을경우 라이브러리에 add도 안되도록)
+      if (createdSongId) {
+        try {
+          await api.delete(`/api/songs/${createdSongId}`)
+          console.log('Rolled back: deleted song', createdSongId)
+        } catch (deleteErr) {
+          console.error('Failed to roll back:', deleteErr)
+        }
+      }
+
+      alert('An error occurred.')
     } finally {
       setIsExtracting(false)
     }
@@ -112,7 +159,7 @@ function Songs() {
             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
           </svg>
-          Back to Library
+          ← Back
         </button>
 
         <h1 className="text-2xl font-[var(--font-display)] text-[var(--color-text-primary)]">
@@ -132,8 +179,8 @@ function Songs() {
             </h2>
             <pre className="text-sm text-[var(--color-text-primary)] leading-relaxed whitespace-pre-wrap font-[var(--font-body)]">
               {words.length > 0 && song?.lyrics
-              ? highlightLyrics(song.lyrics, words)
-              : song?.lyrics ?? 'Failed to load lyrics.'}
+                ? highlightLyrics(song.lyrics, words)
+                : song?.lyrics ?? 'Failed to load lyrics.'}
             </pre>
           </Card>
         </div>
@@ -150,7 +197,7 @@ function Songs() {
                   Extracting words...
                 </span>
               ) : (
-                'Extract words✨'
+                'Add library🎧 & Extract words📑'
               )}
             </Button>
           ) : (
