@@ -150,7 +150,7 @@ function Study() {
   function handleBack() {
     const hasAnswered = Object.keys(sessionAnswers).length > 0
     const remaining = studyQueue.length - currentIndex
-    if (hasAnswered && !window.confirm('${remaining} words are still waiting to be studied.\nLeave anyway?')) {
+    if (hasAnswered && !window.confirm(`${remaining} words are still waiting to be studied.\nLeave anyway?`)) {
       return
     }
     navigate(-1)
