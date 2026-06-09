@@ -74,7 +74,7 @@ function Search() {
           Type a song title or artist name above
         </p>
       ) : results.length === 0 ? (
-        <p className="text-gray-500 text-center mt-12">
+        <p className="text-xl text-gray-500 text-center mt-12">
           No songs found.
           <br />
           Try a different keyword.🧐

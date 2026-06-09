@@ -25,7 +25,7 @@ function Home() {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-bold">🔥 Hot Songs</h2>
         <Link to="/search" className="text-sm bg-[var(--color-surface-alt)] text-[var(--color-text-secondary)] px-3 py-1.5 rounded hover:opacity-80">
-          🔎Go to search
+          🔎 Find more songs...
         </Link>
       </div>
 
