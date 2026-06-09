@@ -7,7 +7,7 @@ export function getStatusLabel(status) {
 export function getStatusClass(status) {
   if (status === "completed") return "bg-green-100 text-green-800";
   if (status === "in_progress") return "bg-amber-100 text-amber-800";
-  return "bg-gray-100 text-gray-800";
+  return "bg-blue-100 text-blue-500";
 }
 
 export function getActionLabel(status) {

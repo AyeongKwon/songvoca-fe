@@ -60,8 +60,8 @@ function Library() {
         <button
           onClick={() => setFilter("new")}
           className={`px-4 py-1 rounded-full text-sm ${filter === "new"
-            ? "bg-gray-900 text-white"
-            : "bg-gray-100 text-gray-700"
+            ? "bg-blue-200 text-blue-700"
+            : "bg-blue-100 text-blue-500"
             }`}
         >
           New · {newCount}
@@ -69,8 +69,8 @@ function Library() {
         <button
           onClick={() => setFilter("learning")}
           className={`px-4 py-1 rounded-full text-sm ${filter === "learning"
-            ? "bg-gray-900 text-white"
-            : "bg-gray-100 text-gray-700"
+            ? "bg-amber-200 text-amber-900"
+            : "bg-amber-100 text-amber-800"
             }`}
         >
           Learning · {learningCount}
@@ -78,8 +78,8 @@ function Library() {
         <button
           onClick={() => setFilter("done")}
           className={`px-4 py-1 rounded-full text-sm ${filter === "done"
-            ? "bg-gray-900 text-white"
-            : "bg-gray-100 text-gray-700"
+            ? "bg-green-200 text-900"
+            : "bg-green-100 text-green-800"
             }`}
         >
           Done · {doneCount}
@@ -102,21 +102,31 @@ function Library() {
               <th className="text-left px-4 py-2 text-xs">TITLE</th>
               <th className="text-left px-4 py-2 text-xs">ARTIST</th>
               <th className="text-left px-4 py-2 text-xs">STATUS</th>
-              <th className="text-left px-4 py-2 text-xs">ACTION</th>
+              <th className="text-left px-4 py-2 text-xs hidden sm:table-cell">ACTION</th>
               <th className="text-left px-4 py-2 text-xs">DELETE</th>
             </tr>
           </thead>
           <tbody>
             {filteredSongs.map((song) => (
               <tr key={song.id} className="border-b border-gray-200">
-                <td className="px-4 py-3 text-sm">{song.title}</td>
+                <td className="px-4 py-3 text-sm">
+                  {/* 모바일: title이 링크 */}
+                  <Link
+                    to={`/songs/${song.id}`}
+                    className="sm:hidden hover:underline"
+                  >
+                    {song.title}
+                  </Link>
+                  {/* 데스크탑: 그냥 텍스트 */}
+                  <span className="hidden sm:inline">{song.title}</span>
+                </td>
                 <td className="px-4 py-3 text-sm">{song.artist}</td>
                 <td className="px-4 py-3">
                   <span className={`text-xs px-2 py-1 rounded font-bold ${getStatusClass(song.study_status)}`}>
                     {getStatusLabel(song.study_status)}
                   </span>
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-4 py-3 hidden sm:table-cell">
                   <Link
                     to={`/songs/${song.id}`}
                     className="text-sm text-gray-700 hover:text-gray-900 hover:underline inline-flex items-center gap-1"
@@ -127,7 +137,7 @@ function Library() {
                 <td className="px-4 py-3">
                   <Button
                     onClick={() => handleDelete(song)}
-                    className="text-xs px-1 py-1 rounded font-bold bg-[var(--color-surface-alt)] text-red-700 hover:bg-red-200"
+                    className="text-s px-1 py-1 rounded font-bold bg-red-100 text-red-700 hover:bg-red-200"
                   >
                     X
                   </Button>
