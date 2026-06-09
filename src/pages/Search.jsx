@@ -96,7 +96,7 @@ function Search() {
                 <td className="px-4 py-3 text-sm">
                   {/* 모바일: title 클릭하면 handleView */}
                   <span
-                    className="sm:hidden cursor-pointer hover:underline"
+                    className="sm:hidden cursor-pointer font-bold hover:underline"
                     onClick={() => handleView(song)}
                   >
                     {song.trackName || "Unknown title"}
