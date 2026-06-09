@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../api/client";
 
 function Search() {
@@ -87,29 +87,17 @@ function Search() {
               <th className="text-left px-4 py-2 text-xs">ARTIST</th>
               <th className="text-left px-4 py-2 text-xs">ALBUM</th>
               <th className="text-left px-4 py-2 text-xs">DURATION</th>
-              <th className="text-left px-4 py-2 text-xs hidden sm:table-cell"></th>
+              <th className="text-left px-4 py-2 text-xs"></th>
             </tr>
           </thead>
           <tbody>
             {results.map((song) => (
               <tr key={song.id} className="border-b border-gray-200">
-                <td className="px-4 py-3 text-sm">
-                  {/* 모바일: title 클릭하면 handleView */}
-                  <span
-                    className="sm:hidden cursor-pointer hover:underline"
-                    onClick={() => handleView(song)}
-                  >
-                    {song.trackName || "Unknown title"}
-                  </span>
-                  {/* 데스크탑: 그냥 텍스트 */}
-                  <span className="hidden sm:inline">
-                    {song.trackName || "Unknown title"}
-                  </span>
-                </td>
+                <td className="px-4 py-3 text-sm">{song.trackName || "Unknown title"}</td>
                 <td className="px-4 py-3 text-sm">{song.artistName || "Unknown artist"}</td>
                 <td className="px-4 py-3 text-sm">{song.albumName || "—"}</td>
                 <td className="px-4 py-3 text-sm">{song.duration ? formatDuration(song.duration) : "—"}</td>
-                <td className="px-4 py-3 hidden sm:table-cell">
+                <td className="px-4 py-3">
                   <button
                     onClick={() => handleView(song)}
                     className="bg-gray-900 text-white px-3 py-1 rounded text-xs font-bold hover:bg-gray-800"
