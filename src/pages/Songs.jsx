@@ -170,7 +170,7 @@ function Songs() {
             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
           </svg>
-          ← Back
+          Back
         </button>
 
         <h1 className="text-2xl font-[var(--font-display)] text-[var(--color-text-primary)]">
