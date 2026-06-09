@@ -42,8 +42,9 @@ function Profile() {
   }
 
   function handleLogout() {
+    if (!window.confirm('Log out?')) return
     logout()
-    navigate('/login')
+    navigate('/')
   }
 
   const initial = user?.name?.charAt(0).toUpperCase() ?? '?'
