@@ -91,7 +91,9 @@ function Library() {
         <p className="text-gray-500">Loading...</p>
       ) : filteredSongs.length === 0 ? (
         <p className="text-gray-500 text-center mt-12">
-          No songs in this category
+          🎵 No songs yet
+          <br />
+          Add songs to your library and start learning😏
         </p>
       ) : (
         <table className="w-full">
